@@ -42,7 +42,7 @@ function Dashboard({ room }: { room: Room }) {
                     <UserList users={room.members} />
                 </div>
                 {
-                    room.transactions.map(transaction => <Transaction transaction={transaction} />)
+                    room.transactions.map((transaction, index) => <Transaction key={index} transaction={transaction} />)
                 }
                 
             </div>
@@ -68,7 +68,7 @@ function UserList({ users }: { users: string[] }) {
 
             <div className='mx-6 w-[1px] h-10 bg-tint400 '></div>
             {
-                users.map(user => <div className="mx-3"><UserCard name={user} url={"https://vercel.com/api/www/avatar/?u=" + user + "&s=60"} /></div>)
+                users.map((user, index) => <div key={user} className="mx-3"><UserCard name={user} url={"https://vercel.com/api/www/avatar/?u=" + user + "&s=60"} /></div>)
             }
         </div>
     )

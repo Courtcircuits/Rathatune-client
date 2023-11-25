@@ -19,7 +19,8 @@ export default {
       tint300: '#cbd5e1',
       tint200: '#e2e8f0',
       tint100: '#f1f5f9',
-      tint50: '#f8fafc'
+      tint50: '#f8fafc',
+      tint0: '#fff'
     },
     fontFamily: {
       sans: ['Inter', 'sans-serif'],

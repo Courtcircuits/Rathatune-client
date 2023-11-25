@@ -1,16 +1,30 @@
 import { useState } from 'react';
 import logo from './../assets/logo.png'
 import SelectIcon from '../assets/icon/select';
+import Dropdown, { DropdownMenu } from './dropdown/Dropdown';
+import DropdownRoomSelector from './dropdown/DropdownRoom';
+import DropdownAccount from './dropdown/DropdownAccount';
 
 function Header() {
+
+    const dropdownTriggerComponent = <RoomSelector rooms={[{ name: "🌴 Vacances  à Tahiti", id: "general" }, { name: "Random", id: "random" }]} selected="general" />;
+
+    const dropdownMenu = <DropdownRoomSelector projects={[{ name: "🌴 Vacances  à Tahiti", id: "general" }, { name: "Random", id: "random" }]} selected="general" />;
+    
     return (
         <header className='pl-5 pr-5 fixed flex flex-row w-full items-center justify-between'>
             <div className='flex flex-row items-center'>
                 <Logo />
                 <div className='mx-6 w-[1px] h-10 bg-tint400 '></div>
-                <RoomSelector rooms={[{ name: "🌴 Vacances  à Tahiti", id: "general" }, { name: "Random", id: "random" }]} selected="general" />
-            </div>
-            <ProfilePicture url="https://vercel.com/api/www/avatar/n2WE0TQwSAig93hjViCvn4yx?&s=60" />
+                <Dropdown triggerComponent={dropdownTriggerComponent} menu={dropdownMenu} />
+            </div> 
+            <Dropdown
+                triggerComponent={<ProfilePicture url="https://vercel.com/api/www/avatar/n2WE0TQwSAig93hjViCvn4yx?&s=60" />}
+                menu={
+                    <DropdownAccount />
+                }
+            />
+
         </header>
     )
 }
@@ -28,7 +42,6 @@ interface Room {
 }
 
 function RoomSelector({ rooms, selected }: { rooms: Room[], selected: string }) {
-    const [focused, setFocused] = useState(false);
     const selected_room = rooms.find(room => room.id === selected);
     return (
         <div className='flex items-center group hover:cursor-pointer '>
