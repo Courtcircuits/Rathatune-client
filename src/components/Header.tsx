@@ -1,18 +1,40 @@
-import { useState } from 'react';
 import logo from './../assets/logo.png'
 import SelectIcon from '../assets/icon/select';
-import Dropdown, { DropdownMenu } from './dropdown/Dropdown';
+import Dropdown from './dropdown/Dropdown';
 import DropdownRoomSelector from './dropdown/DropdownRoom';
 import DropdownAccount from './dropdown/DropdownAccount';
+import React, { useEffect } from 'react';
 
 function Header() {
+
+    const headerRef = React.useRef<HTMLHeadElement>(null);
 
     const dropdownTriggerComponent = <RoomSelector rooms={[{ name: "🌴 Vacances  à Tahiti", id: "general" }, { name: "Random", id: "random" }]} selected="general" />;
 
     const dropdownMenu = <DropdownRoomSelector projects={[{ name: "🌴 Vacances  à Tahiti", id: "general" }, { name: "Random", id: "random" }]} selected="general" />;
     
+    useEffect(() => {
+        document.addEventListener("scroll", () => {
+            if (window.scrollY > 0) {
+                headerRef.current?.classList.add("border-b-1");
+            } else {
+                headerRef.current?.classList.remove("border-b-1");
+            }
+        })
+        return () => {
+            document.removeEventListener("scroll", () => {
+                if (window.scrollY > 0) {
+                    headerRef.current?.classList.add("border-b-1");
+                } else {
+                    headerRef.current?.classList.remove("border-b-1");
+                }
+            })
+        }
+    },[])
+
+
     return (
-        <header className='pl-5 pr-5 fixed flex flex-row w-full items-center justify-between'>
+        <header ref={headerRef} className='pl-5 pr-5 fixed flex flex-row w-full items-center justify-between backdrop-blur-sm bg-tintOpac0 border-b-tint300'>
             <div className='flex flex-row items-center'>
                 <Logo />
                 <div className='mx-6 w-[1px] h-10 bg-tint400 '></div>

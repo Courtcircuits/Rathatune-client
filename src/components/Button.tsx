@@ -1,6 +1,6 @@
 type ButtonType = "primary" | "secondary" | "tertiary" | "warning" | "accept";
 
-function Button({ children, onClick, type }: { children: React.ReactNode, onClick: () => void, type: ButtonType }) {
+function Button({ children, onClick, type, small }: { children: React.ReactNode, onClick: () => void, type: ButtonType, small?: boolean }) {
     const colors = {
         primary: "border-tint300 text-tint700 hover:bg-tint200 stroke-tint700",
         secondary: "bg-tint700 border-tint700 text-tint50 hover:bg-tint600  hover:text-tint50 stroke-tint50 hover:stroke-tint50",
@@ -8,8 +8,12 @@ function Button({ children, onClick, type }: { children: React.ReactNode, onClic
         warning: "border-warn text-warn bg-lightwarn hover:bg-warn hover:text-lightwarn stroke-warn hover:stroke-lightwarn",
         accept: "border-green text-green bg-lightgreen hover:bg-green hover:text-lightgreen stroke-green hover:stroke-lightgreen"
     }
+    let padding = "py-2"
+    if (small) {
+        padding = "py-1"
+    }
 
-    return <button className={"border-1 py-2 flex w-full " + colors[type] + " rounded-sm transition-colors ease-linear duration-100"} onClick={
+    return <button className={"border-1 flex w-full " + colors[type] + " rounded-sm transition-colors ease-linear duration-100 "+padding} onClick={
         onClick
     }>
         <div className="flex flex-row w-full justify-center items-center">{children}</div>
@@ -20,8 +24,14 @@ function IconButton(props: {
     onClick: () => void,
     icon: React.ReactNode,
     text?: string
-    type: ButtonType
+    type: ButtonType,
+    small?: boolean
 }) {
+    if (props.small) {
+        return (<Button onClick={props.onClick} type={props.type} small>
+            <div className="border-0">{props.icon}</div>
+        </Button>)
+    }
     if (!props.text) {
         return (<Button onClick={props.onClick} type={props.type}>
             <div className="border-0">{props.icon}</div>

@@ -48,15 +48,15 @@ function Login() {
     )
 }
 
-function Field({ label, placeholder, type, value, onChange }: {
-    label: string,
+export function Field({ label, placeholder, type, value, onChange }: {
+    label?: string,
     placeholder: string,
     type: string,
     value: string,
     onChange: (value: string) => void
 }) {
     return <div className="flex flex-col w-full py-2">
-        <label className="text-tint500 pb-1">{label}</label>
+        {label && <label className="text-tint500 pb-1">{label}</label>}
         <input className="border-1 border-tint300 rounded-sm  px-3 py-1 bg-tint100 outline-none" placeholder={placeholder} type={type} value={value} onChange={(e) => onChange(e.target.value)}></input>
     </div>
 }

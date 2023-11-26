@@ -20,7 +20,8 @@ export default {
       tint200: '#e2e8f0',
       tint100: '#f1f5f9',
       tint50: '#f8fafc',
-      tint0: '#fff'
+      tint0: '#fff',
+      tintOpac0: 'rgba(255, 255, 255, 0.3)',
     },
     fontFamily: {
       sans: ['Inter', 'sans-serif'],

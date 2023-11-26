@@ -44,7 +44,6 @@ function Dropdown({ triggerComponent, menu }: DropdownProps) {
     }
   }, [open])
 
-
   return (
     <div className="block">
       <button ref={refTriggerComponent}>

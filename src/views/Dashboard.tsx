@@ -1,9 +1,11 @@
 import DollarIcon from "../assets/icon/dollar";
 import SettingsIcon from "../assets/icon/settings";
 import { IconButton } from "../components/Button";
+import { DialogCreateGroup } from "../components/Dialog/Dialog";
 import Filters from "../components/Filters";
 import Transaction, { ITransaction } from "../components/Transaction";
 import { UserCard } from "../components/UserCard";
+import Dropdown from "../components/dropdown/Dropdown";
 
 export interface Room {
     name: string;
@@ -24,18 +26,12 @@ function Dashboard({ room }: { room: Room }) {
                         </h1>
                         <p className="text-tint500 text-sm">Historic of all transactions involving you.</p>
                     </div>
-                    <div className="w-1/3 flex flex-row justify-between">
-                        <div className="flex-1 mr-2">
-                            <IconButton onClick={() => { }} text="Add expense" type="primary" icon={
+                    <div className="w-1/3 flex flex-row justify-end">
+                        <div className="w-[200px] mr-2">
+                            <IconButton onClick={() => { }} text="Add expense" type="secondary" icon={
                                 <DollarIcon width={25} height={25} />
                             } />
                         </div>
-                        <div className="flex-1">
-                            <IconButton onClick={() => { }} text="Manage" type="secondary" icon={
-                                <SettingsIcon width={25} height={25} />
-                            } />
-                        </div>
-
                     </div>
                 </div>
                 <div className="my-2">
@@ -44,7 +40,7 @@ function Dashboard({ room }: { room: Room }) {
                 {
                     room.transactions.map((transaction, index) => <Transaction key={index} transaction={transaction} />)
                 }
-                
+
             </div>
 
         </div>
@@ -56,15 +52,16 @@ function Dashboard({ room }: { room: Room }) {
 function UserList({ users }: { users: string[] }) {
     return (
         <div className="flex flex-row items-center">
-            <div className="flex flex-col items-center mr-5 group hover:cursor-pointer">
-                <div className="w-11 h-11 rounded-full border-1 flex items-center justify-center group-hover:bg-tint900">
-                    <p className="flex items-center justify-center border-0 group-hover:text-tint50">
-                        +
-                    </p>
-                </div>
-
-                <p className="text-sm truncate">Invite</p>
-            </div>
+            <DialogCreateGroup trigger={
+                <button className="flex flex-col items-center mr-5 group hover:cursor-pointer">
+                    <div className="w-11 h-11 rounded-full border-1 flex items-center justify-center group-hover:bg-tint900">
+                        <p className="flex items-center justify-center border-0 group-hover:text-tint50">
+                            +
+                        </p>
+                    </div>
+                    <p className="text-sm truncate">Invite</p>
+                </button>
+            } />
 
             <div className='mx-6 w-[1px] h-10 bg-tint400 '></div>
             {
