@@ -4,6 +4,8 @@ import Dropdown from './dropdown/Dropdown';
 import DropdownRoomSelector from './dropdown/DropdownRoom';
 import DropdownAccount from './dropdown/DropdownAccount';
 import React, { useEffect } from 'react';
+import { DialogCreateGroup } from './Dialog/Dialog';
+import AddIcon from '../assets/icon/plus-circle';
 
 function Header() {
 
@@ -12,7 +14,7 @@ function Header() {
     const dropdownTriggerComponent = <RoomSelector rooms={[{ name: "🌴 Vacances  à Tahiti", id: "general" }, { name: "Random", id: "random" }]} selected="general" />;
 
     const dropdownMenu = <DropdownRoomSelector projects={[{ name: "🌴 Vacances  à Tahiti", id: "general" }, { name: "Random", id: "random" }]} selected="general" />;
-    
+
     useEffect(() => {
         document.addEventListener("scroll", () => {
             if (window.scrollY > 0) {
@@ -30,7 +32,7 @@ function Header() {
                 }
             })
         }
-    },[])
+    }, [])
 
 
     return (
@@ -39,7 +41,18 @@ function Header() {
                 <Logo />
                 <div className='mx-6 w-[1px] h-10 bg-tint400 '></div>
                 <Dropdown triggerComponent={dropdownTriggerComponent} menu={dropdownMenu} />
-            </div> 
+
+                <div className='mx-3 w-[1px] h-7 bg-tint00 '></div>
+                <DialogCreateGroup>
+                    <div className="flex items-center w-full group hover:cursor-pointer hover:bg-tint200 py-2 px-1 rounded-sm transition-colors ease-linear duration-100">
+                        <p className="mr-3 text-lg">Create a new group</p>
+                        <div className="transition-colors ease-linear duration-100 stroke-tint500 mr-1">
+                            <AddIcon width={25} height={20} />
+                        </div>
+                    </div>
+                </DialogCreateGroup>
+            </div>
+
             <Dropdown
                 triggerComponent={<ProfilePicture url="https://vercel.com/api/www/avatar/n2WE0TQwSAig93hjViCvn4yx?&s=60" />}
                 menu={

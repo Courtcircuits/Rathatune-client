@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useRef, useState } from "react";
 import SearchIcon from "../../assets/icon/search";
 
 interface DropdownProps {
@@ -8,8 +8,8 @@ interface DropdownProps {
 
 function Dropdown({ triggerComponent, menu }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const refMenuComponent = React.useRef<HTMLDivElement>(null);
-  const refTriggerComponent = React.useRef<HTMLButtonElement>(null);
+  const refMenuComponent = useRef<HTMLDivElement>(null);
+  const refTriggerComponent = useRef<HTMLButtonElement>(null);
 
   const toggle = (e: MouseEvent) => {
     if (!isOpen) {
@@ -19,9 +19,13 @@ function Dropdown({ triggerComponent, menu }: DropdownProps) {
       }
     }
     if (!refMenuComponent.current?.contains(e.target as Node)) {
+      console.log(e.target)
       setIsOpen(false);
+      console.log("click outside");
     }
+
   }
+
   useEffect(() => {
     document.addEventListener("click", toggle);
     return () => {
@@ -45,13 +49,15 @@ function Dropdown({ triggerComponent, menu }: DropdownProps) {
   }, [open])
 
   return (
-    <div className="block">
+    <div>
       <button ref={refTriggerComponent}>
         {triggerComponent}
       </button>
-      <div ref={refMenuComponent}>
-        {isOpen && menu}
-      </div>
+      {isOpen &&
+        <div ref={refMenuComponent}>
+          {menu}
+        </div>
+      }
     </div>
 
   );
@@ -73,9 +79,7 @@ function DropdownMenu({ children }: { children: ReactNode }) {
 
   return (
     <div ref={refMenuContainer} className="absolute mt-4 py-4 border-1 border-tint400 bg-tint0 rounded-sm">
-      <div>
-        {children}
-      </div>
+      {children}
     </div>
   );
 }

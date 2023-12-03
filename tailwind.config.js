@@ -6,9 +6,9 @@ export default {
   ],
   theme: {
     colors :{
-      warn : '#D24545',
+      warn : '#ff0707',
       lightwarn: '#F9F1F1',
-      green: '#48974B',
+      green: '#24ee76',
       lightgreen: '#DAFFE2',
       tint900: '#0f172a',
       tint800: '#1e293b',

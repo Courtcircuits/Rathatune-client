@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Field } from "../../views/Login";
 import Button, { IconButton } from "../Button";
 import AddIcon from "../../assets/icon/plus-circle";
@@ -77,8 +77,8 @@ export function DialogWindow({
     setOpen: (open: boolean) => void,
     open: boolean
 }) {
-    const backgroundRef = React.useRef<HTMLDivElement>(null);
-    const dialogRef = React.useRef<HTMLDivElement>(null);
+    const backgroundRef = useRef<HTMLDivElement>(null);
+    const dialogRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const handleClickOutside = (event: any) => {
@@ -124,9 +124,9 @@ export function DialogWindow({
 }
 
 export function DialogCreateGroup({
-    trigger,
+    children
 }: {
-    trigger: React.ReactNode,
+    children: React.ReactNode,
 }) {
     const [groupName, setGroupName] = React.useState("");
     const [groupMembers, setGroupMembers] = React.useState<string[]>([""]);
@@ -166,7 +166,7 @@ export function DialogCreateGroup({
         setOpen(false);
     }}>Cancel</Button>;
 
-    return (<Dialog open={open} setOpen={setOpen} trigger={trigger} title="Create a group" subtitle="Create a group to share expenses with your friends" next={next} back={back}>
+    return (<Dialog open={open} setOpen={setOpen} trigger={children} title="Create a group" subtitle="Create a group to share expenses with your friends" next={next} back={back}>
         <div className="py-2">
             <Field label="Group name" placeholder="Group name" type="text" value={groupName} onChange={setGroupName} />
         </div>

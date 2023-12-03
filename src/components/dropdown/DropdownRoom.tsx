@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { DropdownMenu, Searchbar, SectionSeparator } from "./Dropdown";
 import Check from "../../assets/icon/check";
-import AddIcon from "../../assets/icon/plus-circle";
-import { DialogCreateGroup } from "../Dialog/Dialog";
 
 function DropdownRoomSelector({ projects, selected }: { projects: { name: string, id: string }[], selected: string }) {
   const [search, setSearch] = useState("");
@@ -15,14 +13,7 @@ function DropdownRoomSelector({ projects, selected }: { projects: { name: string
         {
           projects.map((project, index) => <ProjectSelector key={index} project={project} selected={project.id === selected} />).filter((project) => project.props.project.name.toLowerCase().includes(search.toLowerCase()) || search === "")
         }
-        <DialogCreateGroup trigger={
-          <button className="flex items-center w-full group hover:cursor-pointer hover:bg-tint200 py-2 px-1 rounded-sm transition-colors ease-linear duration-100">
-            <div className="transition-colors ease-linear duration-100 stroke-tint500 mr-1">
-              <AddIcon width={25} height={20} />
-            </div>
-            <p className="mr-5 text-lg">Create a new group</p>
-          </button>
-        } />
+       
       </div>
     </DropdownMenu>
   )

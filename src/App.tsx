@@ -1,52 +1,12 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
 import Home from "./views/Home"
 import Login from "./views/Login"
-import Header from "./components/Header"
-import Dashboard, { Room } from "./views/Dashboard"
+import Dashboard from "./views/Dashboard"
+import Transactions from "./views/Transactions"
+import Leaderboard from "./views/Leaderboard"
+import RoomSettings from "./views/RoomSettings"
 
 
-const rooms: Room[] = [{
-  name: "Vacances  à Tahiti",
-  id: "general",
-  members: ["You", "Denis", "Ken"],
-  transactions: [{
-    amount: 10,
-    date: new Date(),
-    receiver: "You",
-    sender: "Denis",
-    title: "Pizza"
-  },
-  {
-    amount: 14,
-    date: new Date(),
-    receiver: "You",
-    sender: "Denis",
-    title: "Pizza 2"
-  },
-  {
-    amount: 14,
-    date: new Date(),
-    receiver: "You",
-    sender: "Denis",
-    title: "Pizza 2"
-  },
-  {
-    amount: 14,
-    date: new Date(),
-    receiver: "You",
-    sender: "Denis",
-    title: "Pizza 2"
-  },
-  {
-    amount: 14,
-    date: new Date(),
-    receiver: "You",
-    sender: "Denis",
-    title: "Pizza 2"
-  }
-  ]
-}
-]
 
 const router = createBrowserRouter([
   {
@@ -59,14 +19,31 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <Dashboard room={rooms[0]} />,
+    element: <Dashboard/>,
+    children: [
+      {
+        path: "/dashboard/",
+        element: <Transactions />,
+      },
+      {
+        path: "/dashboard/transactions",
+        element: <Transactions />,
+      },
+      {
+        path: "/dashboard/leaderboard",
+        element: <Leaderboard />,
+      },
+      {
+        path: "/dashboard/settings",
+        element: <RoomSettings />,
+      }
+    ]
   }
 ])
 
 function App() {
   return (
     <div>
-      <Header />
       <RouterProvider router={router} />
     </div>
   )

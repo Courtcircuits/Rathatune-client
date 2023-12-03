@@ -25,7 +25,8 @@ function IconButton(props: {
     icon: React.ReactNode,
     text?: string
     type: ButtonType,
-    small?: boolean
+    small?: boolean,
+    invert ?: boolean
 }) {
     if (props.small) {
         return (<Button onClick={props.onClick} type={props.type} small>
@@ -37,10 +38,18 @@ function IconButton(props: {
             <div className="border-0">{props.icon}</div>
         </Button>)
     }
+    if (props.invert) {
+        return <Button onClick={props.onClick} type={props.type}>
+            <div className="border-0">{props.text} </div>
+            <p className="pl-3 truncate">{props.icon}</p>
+        </Button>
+    }
     return <Button onClick={props.onClick} type={props.type}>
         <div className="border-0">{props.icon} </div>
         <p className="pl-3 truncate">{props.text}</p>
     </Button>
+
+
 }
 
 function WarningButton(props: {
