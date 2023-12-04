@@ -1,24 +1,29 @@
-import { IconButton, WarningButton } from "../components/Button";
-import GoogleIcon from "../assets/icon/google.tsx";
 import { useContext, useState } from "react";
-import { Auth, AuthContext } from "../contexts/AuthContext.tsx";
+import { IconButton, WarningButton } from "../components/Button";
+import GoogleIcon from "../assets/icon/google";
+import { Field } from "./Login";
+import { Auth, AuthContext } from "../contexts/AuthContext";
 
-function Login() {
+
+function Register() {
     const [email, setEmail] = useState("");
+    const [name, setName] = useState("");
     const [errorMessages, setErrorMessages] = useState<string[]>([]); // ["Email is required", "Email is invalid"
     const [password, setPassword] = useState("");
-    const {auth, setAuth} = useContext(AuthContext);
-    
-    async function validate(){
+    const { auth, setAuth } = useContext(AuthContext);
+
+    async function validate() {
         const errors: string[] = [];
-        if(email.length === 0) errors.push("Email is required");
-        if(!email.includes("@")) errors.push("Email is invalid");
-        if(password.length === 0) errors.push("Password is required");
-        if(password.length < 8) errors.push("Password must be at least 8 characters");
+        if (email.length === 0) errors.push("Email is required");
+        if (!email.includes("@")) errors.push("Email is invalid");
+        if (password.length === 0) errors.push("Password is required");
+        if (password.length < 8) errors.push("Password must be at least 8 characters");
+        if (name.length === 0) errors.push("Name is required");
         if (errors.length === 0) {
             try {
-                await auth.login(email, password);
+                await auth.register(name, email, password);
                 setAuth((user: Auth) => {
+                    user.name = name;
                     user.token = localStorage.getItem("token") || "";
                     return user
                 })
@@ -26,15 +31,16 @@ function Login() {
                 console.log(e);
                 errors.push("An error occured. Please try again later.");
             }
-        }else {
+        } else {
             setErrorMessages(errors);
         }
+
     }
 
     return (
         <div className="flex items-center justify-center h-screen flex-col">
             <div className="md:w-1/3 sm:w-1/2 flex items-center flex-col">
-                <h1 className="heading-1 pb-5">Log in</h1>
+                <h1 className="heading-1 pb-5">Register</h1>
                 <IconButton icon={
                     <GoogleIcon width={25} height={25} />
                 } text="Continue with Google" type="primary" onClick={() => { }} />
@@ -43,11 +49,14 @@ function Login() {
                 <Field label="Email" placeholder="Enter your email address..." type="email" value={email} onChange={(value) =>
                     setEmail(value)
                 } />
+                <Field label="Name" placeholder="Enter your name..." type="text" value={name} onChange={(value) =>
+                    setName(value)
+                } />
                 <Field label="Password" placeholder="Enter your password..." type="password" value={password} onChange={(value) =>
                     setPassword(value)
                 } />
                 <div className="py-2 w-full">
-                    <WarningButton text="Continue with email" onClick={() => {
+                    <WarningButton text="Register with email" onClick={() => {
                         validate();
                     }} />
                 </div>
@@ -63,17 +72,5 @@ function Login() {
     )
 }
 
-export function Field({ label, placeholder, type, value, onChange }: {
-    label?: string,
-    placeholder: string,
-    type: string,
-    value: string,
-    onChange: (value: string) => void
-}) {
-    return <div className="flex flex-col w-full py-2">
-        {label && <label className="text-tint500 pb-1">{label}</label>}
-        <input className="border-1 border-tint300 rounded-sm  px-3 py-1 bg-tint100 outline-none" placeholder={placeholder} type={type} value={value} onChange={(e) => onChange(e.target.value)}></input>
-    </div>
-}
 
-export default Login;
+export default Register;

@@ -14,9 +14,7 @@ export default function RoomSettings() {
                 <SettingCard title="Update the name of the room" description="Update the name of the room. This time pick a smarter name..." instruction="The name can't be more than 50 characters long. Otherwise, you won't remember it.">
                     <input className="w-full bg-tint0 border-1 border-tint400 rounded-sm px-4 py-2" type="text" placeholder="test" />
                 </SettingCard>
-
-                <SettingCard type="warning" title="Update the name of the room" description="Update the name of the room. This time pick a smarter name..." instruction="The name can't be more than 50 characters long. Otherwise, you won't remember it.">
-                    <input className="w-full bg-tint0 border-1 border-tint400 rounded-sm px-4 py-2" type="text" placeholder="test" />
+                <SettingCard type="warning" title="Delete this room" description="If you delete your room, you won't be able to make it come back." instruction="Farewell and goodbye.">
                 </SettingCard>
             </div>
         </div>
@@ -37,7 +35,7 @@ function SettingCard({ title, description, children, instruction, type }: { titl
                     {children}
                 </div>
             </div>
-            <div className={"w-full rounded-bl-sm rounded-br-sm bg-0 py-5 px-4 flex flex-row items-center border-l-1 border-r-1 border-b-1 "+ colors}>
+            <div className={"w-full rounded-bl-sm rounded-br-sm bg-0 py-5 px-4 flex flex-row items-center border-l-1 border-r-1 border-b-1 " + colors}>
                 <p className="font-light text-sm w-2/3">{instruction}</p>
                 <div className="w-1/3">
                     <Button type={type === "warning" ? "warning" : "secondary"} onClick={() => { }}><p>Update</p></Button>

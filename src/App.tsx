@@ -5,6 +5,9 @@ import Dashboard from "./views/Dashboard"
 import Transactions from "./views/Transactions"
 import Leaderboard from "./views/Leaderboard"
 import RoomSettings from "./views/RoomSettings"
+import { AuthProvider } from "./contexts/AuthContext"
+import Register from "./views/Register"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 
 
@@ -18,34 +21,44 @@ const router = createBrowserRouter([
     element: <Login />,
   },
   {
-    path: "/dashboard",
-    element: <Dashboard/>,
+    path: "/register",
+    element: <Register />,
+  },
+  {
+    path: "/dashboard/:id",
+    element: <Dashboard />,
     children: [
       {
-        path: "/dashboard/",
+        path: "/dashboard/:id/",
         element: <Transactions />,
       },
       {
-        path: "/dashboard/transactions",
+        path: "/dashboard/:id/transactions",
         element: <Transactions />,
       },
       {
-        path: "/dashboard/leaderboard",
+        path: "/dashboard/:id/leaderboard",
         element: <Leaderboard />,
       },
       {
-        path: "/dashboard/settings",
+        path: "/dashboard/:id/settings",
         element: <RoomSettings />,
       }
     ]
   }
 ])
 
+const queryClient = new QueryClient()
+
 function App() {
   return (
-    <div>
-      <RouterProvider router={router} />
-    </div>
+    <>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
+      </QueryClientProvider>
+    </>
   )
 }
 
