@@ -1,25 +1,12 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const default_auth: Auth = {
+export const default_auth: Auth = {
   name: "",
   token: "",
-  logout: () => { },
-  login: async (email, password) => {
-    const {token} = await login(email, password)
-    localStorage.setItem("token", token)
-  },
-  register: async (name, email, password) => {
-    const {user_id} = await register(name, email, password);
-    const {token} = await login(email, password);
-    localStorage.setItem("token", token);
-  },
-  loading: false,
-  setLoading: () => { },
-  error: "",
-  setError: () => { },
 }
 
-async function register(name: string, email: string, password: string): Promise<{
+export async function registerRequest(name: string, email: string, password: string): Promise<{
   user_id: string,
   email: string,
   password: string,
@@ -29,47 +16,53 @@ async function register(name: string, email: string, password: string): Promise<
   form_data.append("username", name);
   form_data.append("email", email);
   form_data.append("password", password);
-  const data = await fetch(import.meta.env.VITE_API_ENDPOINT+"/register", {
+  const data = await fetch(import.meta.env.VITE_API_ENDPOINT + "/register", {
     method: "POST",
     body: form_data,
   });
   return (await data.json()).data;
 }
 
-async function login(email: string, password: string): Promise<{type: string, token: string}> {
+export async function loginRequest(email: string, password: string): Promise<{ type: string, token: string }> {
   const form_data = new URLSearchParams();
   form_data.append("email", email);
   form_data.append("password", password);
-  const data = await fetch(import.meta.env.VITE_API_ENDPOINT+"/login", {
+  const data = await fetch(import.meta.env.VITE_API_ENDPOINT + "/login", {
     method: "POST",
     body: form_data,
   });
   return (await data.json()).data;
 }
-
-
 
 export interface Auth {
   name: string,
   token: string,
-  logout: () => void,
-  login: (email: string, password: string) => Promise<void>,
-  register: (name: string, email: string, password: string) => Promise<void>,
-  loading: boolean,
-  setLoading: (loading: boolean) => void,
-  error: string,
-  setError: (error: string) => void,
 }
 
 export const AuthContext = createContext<{
   auth: Auth;
-  setAuth: (authcb: (user:Auth)=> Auth) => void;
+  setAuth: (auth: Auth) => void;
 }>({ auth: default_auth, setAuth: () => { } });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [auth, setAuth] = useState<Auth>(default_auth);
+  const navigate = useNavigate();
 
-   return (
+  useEffect(() => {
+    console.log(auth)
+    if (!auth.token) {
+      navigate("/login")
+      return
+    }
+    if (auth.token === "") {
+      navigate("/login")
+      return
+    }else{
+      navigate("/dashboard/1");
+    }
+  }, [auth]);
+
+  return (
     <AuthContext.Provider value={{ auth, setAuth }}>
       {children}
     </AuthContext.Provider>

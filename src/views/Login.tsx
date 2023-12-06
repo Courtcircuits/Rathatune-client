@@ -1,13 +1,13 @@
 import { IconButton, WarningButton } from "../components/Button";
 import GoogleIcon from "../assets/icon/google.tsx";
 import { useContext, useState } from "react";
-import { Auth, AuthContext } from "../contexts/AuthContext.tsx";
+import { AuthContext, loginRequest } from "../contexts/AuthContext.tsx";
 
 function Login() {
     const [email, setEmail] = useState("");
     const [errorMessages, setErrorMessages] = useState<string[]>([]); // ["Email is required", "Email is invalid"
     const [password, setPassword] = useState("");
-    const {auth, setAuth} = useContext(AuthContext);
+    const {setAuth} = useContext(AuthContext);
     
     async function validate(){
         const errors: string[] = [];
@@ -17,10 +17,10 @@ function Login() {
         if(password.length < 8) errors.push("Password must be at least 8 characters");
         if (errors.length === 0) {
             try {
-                await auth.login(email, password);
-                setAuth((user: Auth) => {
-                    user.token = localStorage.getItem("token") || "";
-                    return user
+                const {token} =  await loginRequest(email, password);
+                setAuth({
+                    name: email,
+                    token: token,
                 })
             } catch (e) {
                 console.log(e);

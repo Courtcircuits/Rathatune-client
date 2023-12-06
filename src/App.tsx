@@ -8,8 +8,8 @@ import RoomSettings from "./views/RoomSettings"
 import { AuthProvider } from "./contexts/AuthContext"
 import Register from "./views/Register"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-
-
+import { Provider } from "react-redux"
+import store from "./store/store"
 
 const router = createBrowserRouter([
   {
@@ -18,15 +18,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <Login />,
+    element: <AuthProvider><Login/></AuthProvider>,
   },
   {
     path: "/register",
-    element: <Register />,
+    element: <AuthProvider><Register /></AuthProvider>,
   },
   {
     path: "/dashboard/:id",
-    element: <Dashboard />,
+    element: <AuthProvider><Dashboard /></AuthProvider>,
     children: [
       {
         path: "/dashboard/:id/",
@@ -52,13 +52,11 @@ const queryClient = new QueryClient()
 
 function App() {
   return (
-    <>
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <RouterProvider router={router} />
-      </AuthProvider>
+    <Provider store={store}>
+      <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
       </QueryClientProvider>
-    </>
+    </Provider>
   )
 }
 

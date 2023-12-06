@@ -6,7 +6,6 @@ function Filters() {
     const filters = ["Transactions", "Leaderboard", "Settings"]
     const location = useLocation();
     useEffect(() => {
-        console.log(location.pathname.split("/")[2]);
         const index = filters.findIndex((filter) => filter.toLowerCase() == location.pathname.split("/")[2]);
         if (index != -1) {
             setSelected(index);
