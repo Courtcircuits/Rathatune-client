@@ -4,19 +4,24 @@ import Button from "../components/Button";
 
 export default function RoomSettings() {
     const { room } = useContext(RoomContext);
+
     return (
         <div className="px-[10%] py-10">
             <h1 className="text-4xl font-primary font-black">
-                {room.name}
+                {room != undefined ? room.name : "You can't access this room."}
             </h1>
-            <p className="text-tint500 text-sm">Manage your room here.</p>
-            <div className="py-5">
-                <SettingCard title="Update the name of the room" description="Update the name of the room. This time pick a smarter name..." instruction="The name can't be more than 50 characters long. Otherwise, you won't remember it.">
-                    <input className="w-full bg-tint0 border-1 border-tint400 rounded-sm px-4 py-2" type="text" placeholder="test" />
-                </SettingCard>
-                <SettingCard type="warning" title="Delete this room" description="If you delete your room, you won't be able to make it come back." instruction="Farewell and goodbye.">
-                </SettingCard>
-            </div>
+            {
+                room != undefined ? (<><p className="text-tint500 text-sm">Manage your room here.</p>
+                    <div className="py-5">
+                        <SettingCard title="Update the name of the room" description="Update the name of the room. This time pick a smarter name..." instruction="The name can't be more than 50 characters long. Otherwise, you won't remember it.">
+                            <input className="w-full bg-tint0 border-1 border-tint400 rounded-sm px-4 py-2" type="text" placeholder="test" />
+                        </SettingCard>
+                        <SettingCard type="warning" title="Delete this room" description="If you delete your room, you won't be able to make it come back." instruction="Farewell and goodbye.">
+                        </SettingCard>
+                    </div></>) : (
+                    <p></p>
+                )
+            }
         </div>
     )
 }

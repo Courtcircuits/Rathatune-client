@@ -1,16 +1,36 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Button, { IconButton } from "../Button";
 import Dialog from "./Dialog";
 import LinkIcon from "../../assets/icon/link";
 import { Field } from "../../views/Login";
+import { RoomContext, getLinkToRoom } from "../../contexts/RoomContext";
 
 export default function DialogInvitation({children}: {children: React.ReactNode}) {
     const [open, setOpen] = useState(false);
     const [textButton, setTextButton] = useState("Copy link");
     const [email, setEmail] = useState("");
+    const [link, setLink] = useState("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+    const {room} = useContext(RoomContext);
+
+
+
     const next = <Button type="secondary" onClick={() => {
         setOpen(false);
     }}>Ok !</Button>
+
+    useEffect(() => {
+        if (open) {
+            if (room == undefined) {
+                return;
+            }
+            getLinkToRoom(room.id).then((link) => {
+                console.log(link)
+                setLink(import.meta.env.VITE_CLIENT_ENDPOINT+"/join/"+link);
+            })
+        }
+    }, [room, open])
+
+
     return (
         <Dialog open={open} setOpen={setOpen} next={next} trigger={children} title="Invite a friend !" subtitle="Let's scam one more friend....">
             <div className="py-2">
@@ -35,7 +55,7 @@ export default function DialogInvitation({children}: {children: React.ReactNode}
 
                 <p>Send this link to your friend to invite him to the group !</p>
                 <IconButton type="primary" onClick={() =>{
-                    navigator.clipboard.writeText("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+                    navigator.clipboard.writeText(link);
                     setTextButton("Copied !");
                 }} text={textButton} icon={<LinkIcon width={25} height={25} />} />
             </div>           

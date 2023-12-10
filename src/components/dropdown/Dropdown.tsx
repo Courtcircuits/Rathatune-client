@@ -19,9 +19,7 @@ function Dropdown({ triggerComponent, menu }: DropdownProps) {
       }
     }
     if (!refMenuComponent.current?.contains(e.target as Node)) {
-      console.log(e.target)
       setIsOpen(false);
-      console.log("click outside");
     }
 
   }

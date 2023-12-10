@@ -6,8 +6,21 @@ import DollarIcon from "../assets/icon/dollar";
 import DialogInvitation from "./Dialog/DialogInvitation";
 import { UserCard } from "./UserCard";
 
-export default function RoomLayout({subtitle, children }: { children: React.ReactNode, subtitle: string }) {
+export default function RoomLayout({ subtitle, children }: { children: React.ReactNode, subtitle: string }) {
     const { room } = useContext(RoomContext);
+    if (room == undefined) {
+        return (<div className="px-[10%]">
+            <div className="py-10 flex flex-row w-full items-center">
+                <div className="w-2/3">
+                    <h1 className="text-4xl font-primary font-black">
+                        You can't access this room.
+                    </h1>
+                    <p className="text-tint500 text-sm">Please select another room...</p>
+                </div>
+            </div>
+
+        </div>)
+    }
     return (<div className="px-[10%]">
         <div className="py-10 flex flex-row w-full items-center">
             <div className="w-2/3">

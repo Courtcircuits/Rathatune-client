@@ -22,18 +22,28 @@ function Register() {
         if (name.length === 0) errors.push("Name is required");
         if (errors.length === 0) {
             try {
-                const {user_id} = await registerRequest(name, email, password);
+                let token_auth = "";
+                const { user_id } = await registerRequest(name, email, password);
                 if (!user_id) {
                     errors.push("An error occured. Please try again later.");
                     setErrorMessages(errors);
                     return;
                 }
-                const { token } = await loginRequest(email, password);
+                try {
+                    const { token } = await loginRequest(email, password);
+                    token_auth = token;
+                } catch (e) {
+                    console.log(e);
+                    errors.push("An error occured. Please try again later.");
+                    setErrorMessages(errors);
+                    return;
+                }
                 setAuth({
                     email: email,
                     profile_picture: "", // profile picture can't be set here because it's not in the register request
                     name: name,
-                    token: token,
+                    token: token_auth,
+                    rooms: [], // rooms can't be set here because it's not in the register request
                 })
             } catch (e) {
                 console.log(e);

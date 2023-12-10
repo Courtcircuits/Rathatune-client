@@ -12,4 +12,5 @@ declare module "*.svg?react" {
 
 interface ImportMetaEnv {
   readonly VITE_API_ENDPOINT: string;
+  readonly VITE_CLIENT_ENDPOINT: string;
 }

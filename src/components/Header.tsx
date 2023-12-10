@@ -3,17 +3,25 @@ import SelectIcon from '../assets/icon/select';
 import Dropdown from './dropdown/Dropdown';
 import DropdownRoomSelector from './dropdown/DropdownRoom';
 import DropdownAccount from './dropdown/DropdownAccount';
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { DialogCreateGroup } from './Dialog/Dialog';
-import AddIcon from '../assets/icon/plus-circle';
+import AddIconPlus from '../assets/icon/plus';
+import { AuthContext } from '../contexts/AuthContext';
+import { RoomContext } from '../contexts/RoomContext';
 
 function Header() {
 
     const headerRef = React.useRef<HTMLHeadElement>(null);
+    const {user } = useContext(AuthContext);
+    const {room} = useContext(RoomContext);
 
-    const dropdownTriggerComponent = <RoomSelector rooms={[{ name: "🌴 Vacances  à Tahiti", id: "general" }, { name: "Random", id: "random" }]} selected="general" />;
+    const dropdownTriggerComponent = <RoomSelector rooms={
+        user.rooms
+    } selected={room != undefined ? room.id : undefined} />;
 
-    const dropdownMenu = <DropdownRoomSelector projects={[{ name: "🌴 Vacances  à Tahiti", id: "general" }, { name: "Random", id: "random" }]} selected="general" />;
+    const dropdownMenu = <DropdownRoomSelector projects={
+        user.rooms
+    } selected={room != undefined ? room.id : undefined} />;
 
     useEffect(() => {
         document.addEventListener("scroll", () => {
@@ -43,22 +51,28 @@ function Header() {
                 <Dropdown triggerComponent={dropdownTriggerComponent} menu={dropdownMenu} />
 
                 <div className='mx-3 w-[1px] h-7 bg-tint00 '></div>
-                <DialogCreateGroup>
-                    <div className="flex items-center w-full group hover:cursor-pointer hover:bg-tint200 py-2 px-1 rounded-sm transition-colors ease-linear duration-100">
-                        <p className="mr-3 text-lg">Create a new group</p>
-                        <div className="transition-colors ease-linear duration-100 stroke-tint500 mr-1">
-                            <AddIcon width={25} height={20} />
+
+            </div>
+            <div className='flex flex-row items-center justify-between'>
+                <div className='mr-4'>
+                    <DialogCreateGroup>
+                        <div className="flex items-center w-full group hover:cursor-pointer hover:bg-tint200 py-1 rounded-sm transition-colors ease-linear duration-100 border-2 border-tint400">
+                            {/* <p className="mr-3 text-lg">Create a new group</p> */}
+                            <div className="transition-colors ease-linear duration-100 stroke-tint500">
+                                {/* <AddIcon width={25} height={20} /> */}
+                                <AddIconPlus width={30} height={25} />
+                            </div>
                         </div>
-                    </div>
-                </DialogCreateGroup>
+                    </DialogCreateGroup>
+                </div>
+                <Dropdown
+                    triggerComponent={<ProfilePicture url={"https://vercel.com/api/www/avatar/?u="+ user.name +"&s=60"} />}
+                    menu={
+                        <DropdownAccount />
+                    }
+                />
             </div>
 
-            <Dropdown
-                triggerComponent={<ProfilePicture url="https://vercel.com/api/www/avatar/n2WE0TQwSAig93hjViCvn4yx?&s=60" />}
-                menu={
-                    <DropdownAccount />
-                }
-            />
 
         </header>
     )
@@ -76,8 +90,20 @@ interface Room {
     id: string;
 }
 
-function RoomSelector({ rooms, selected }: { rooms: Room[], selected: string }) {
+function RoomSelector({ rooms, selected }: { rooms: Room[], selected: string | undefined }) {
     const selected_room = rooms.find(room => room.id === selected);
+    if (!selected_room) {
+        return (
+            <div className='flex items-center group hover:cursor-pointer '>
+                <p className='mr-5 text-lg'>{
+                    "No room selected"
+                }</p>
+                <div className='py-2 group-hover:bg-tint300 rounded-sm transition-colors ease-linear duration-100'>
+                    <SelectIcon width={20} height={20} />
+                </div>
+            </div>
+        )
+    }
     return (
         <div className='flex items-center group hover:cursor-pointer '>
             <p className='mr-5 text-lg'>{

@@ -5,7 +5,7 @@ import LogOutIcon from "../../assets/icon/log-out";
 import SettingsIcon from "../../assets/icon/settings";
 import { IconButton } from "../Button";
 import { DropdownMenu, SectionSeparator } from "./Dropdown";
-import { AuthContext, default_auth } from "../../contexts/AuthContext";
+import { AuthContext, default_auth, logoutRequest } from "../../contexts/AuthContext";
 
 export default function DropdownAccount() {
     const {user: auth, setUser: setAuth} = useContext(AuthContext);
@@ -15,17 +15,12 @@ export default function DropdownAccount() {
             <SectionSelector section_name="Dashboard" icon={<></>} />
             <SectionSelector section_name="Settings" icon={<SettingsIcon width={20} height={20} />} />
             <SectionSelector section_name="Log out" danger icon={<LogOutIcon width={20} height={20}/>} onClick={()=>{
-                localStorage.removeItem("token");
-                setAuth({
-                    email: "",
-                    profile_picture: "",
-                    name: "",
-                    token: "",
+                logoutRequest().then(() => {
+                    setAuth(default_auth);
                 })
             }} />
             <div className="mx-5">
                 <SectionSeparator />
-
                 <p className="text-tint600 text-sm">Invitations</p>
                 <Invitation from="John Doe" room="🌴 Vacances  à Tahiti" />
                 <Invitation from="John Doe" room="🌴 Vacances  à Tahiti" />

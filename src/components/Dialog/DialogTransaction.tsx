@@ -1,15 +1,19 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Button from "../Button";
 import Dialog from "./Dialog";
 import { Field } from "../../views/Login";
 import SelectButton, { SelectButtonSearch } from "../SelectButton";
+import { RoomContext } from "../../contexts/RoomContext";
+import { AuthContext } from "../../contexts/AuthContext";
 
 export default function DialogCreateTransaction({
     children
 }: {
     children: React.ReactNode
 }) {
-    const members = ["Denis", "Ken"];
+    const { room } = useContext(RoomContext);
+    const { user } = useContext(AuthContext);
+    const members = room?.members.filter((value) => value !== user.name) || [];
     const [otherMember, setOtherMember] = useState(members[0]);
     const [amount, setAmount] = useState<string>("");
     const [description, setDescription] = useState("");
@@ -55,27 +59,35 @@ export default function DialogCreateTransaction({
         setOpen(false);
     }}>Cancel</Button>;
 
-    return (<Dialog open={open} setOpen={setOpen} trigger={children} title="Register a new transaction" subtitle="Let's be a rat for a moment hihi..." next={next} back={back}>
-        <div className="py-2">
-            <Field label="Transaction name" placeholder="pizza of the mama" type="text" value={description} onChange={setDescription} />
-        </div>
-        <div className="py-2 flex flex-row items-center justify-between">
-            <span className="w-full">
-                <p className="text-tint500 mb-1">Type of transaction </p>
-                <SelectButton setValue={setType} value={type} options={["Expense", "Income"]} />
 
-            </span>
-        </div>
-        <div className="py-2">
-            <Field label="Amount" placeholder="How much are you a rat ?" type="number" value={amount} onChange={setAmount} />
-        </div>
-        <div className="py-2 flex flex-row items-center justify-between">
-            <span className="w-full">
-                <p className="text-tint500 mb-1">Type of transaction </p>
-                <SelectButtonSearch setValue={setOtherMember} value={otherMember} options={members} />
-            </span>
-        </div>
-        <p className="text-warn w-full text-center">{error}</p>
+    return (<Dialog open={open} setOpen={setOpen} trigger={children} title="Register a new transaction" subtitle="Let's be a rat for a moment hihi..." next={next} back={back}>
+        {
+            members.length === 0 ? (<p className="text-center">⚠️ You can't create a transaction because you are alone in the room</p>)
+                : (
+                    <>
+                        <div className="py-2">
+                            <Field label="Transaction name" placeholder="pizza of the mama" type="text" value={description} onChange={setDescription} />
+                        </div>
+                        <div className="py-2 flex flex-row items-center justify-between">
+                            <span className="w-full">
+                                <p className="text-tint500 mb-1">Type of transaction </p>
+                                <SelectButton setValue={setType} value={type} options={["Expense", "Income"]} />
+
+                            </span>
+                        </div>
+                        <div className="py-2">
+                            <Field label="Amount" placeholder="How much are you a rat ?" type="number" value={amount} onChange={setAmount} />
+                        </div>
+                        <div className="py-2 flex flex-row items-center justify-between">
+                            <span className="w-full">
+                                <p className="text-tint500 mb-1">Type of transaction </p>
+                                <SelectButtonSearch setValue={setOtherMember} value={otherMember} options={members} />
+                            </span>
+                        </div>
+                        <p className="text-warn w-full text-center">{error}</p>
+                    </>
+                )
+        }
     </Dialog>)
 
 }

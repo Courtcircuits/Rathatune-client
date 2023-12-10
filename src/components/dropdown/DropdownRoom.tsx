@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { DropdownMenu, Searchbar, SectionSeparator } from "./Dropdown";
 import Check from "../../assets/icon/check";
+import { Link } from "react-router-dom";
 
-function DropdownRoomSelector({ projects, selected }: { projects: { name: string, id: string }[], selected: string }) {
+function DropdownRoomSelector({ projects, selected }: { projects: { name: string, id: string }[], selected: string | undefined }) {
   const [search, setSearch] = useState("");
   return (
     <DropdownMenu>
@@ -21,14 +22,14 @@ function DropdownRoomSelector({ projects, selected }: { projects: { name: string
 
 
 function ProjectSelector({ project, selected }: { project: { name: string, id: string }, selected: boolean }) {
-  return (<div className='flex items-center justify-between group hover:cursor-pointer hover:bg-tint200 py-2 px-1 rounded-sm transition-colors ease-linear duration-100'>
+  return (<Link to={"/dashboard/"+ project.id } className='flex items-center justify-between group hover:cursor-pointer hover:bg-tint200 py-2 px-1 rounded-sm transition-colors ease-linear duration-100'>
     <p className='mr-5 text-lg'>{
       project?.name
     }</p>
     <div className='transition-colors ease-linear duration-100 stroke-tint700'>
       {selected && <Check width={20} height={20} />}
     </div>
-  </div>)
+  </Link>)
 }
 
 export default DropdownRoomSelector;

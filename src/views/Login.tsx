@@ -2,36 +2,49 @@ import { IconButton, WarningButton } from "../components/Button";
 import GoogleIcon from "../assets/icon/google.tsx";
 import { useContext, useState } from "react";
 import { AuthContext, getInfosAboutMe, loginRequest } from "../contexts/AuthContext.tsx";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
     const [email, setEmail] = useState("");
     const [errorMessages, setErrorMessages] = useState<string[]>([]); // ["Email is required", "Email is invalid"
     const [password, setPassword] = useState("");
-    const {setUser} = useContext(AuthContext);
-    
-    async function validate(){
-        const errors: string[] = [];
-        if(email.length === 0) errors.push("Email is required");
-        if(!email.includes("@")) errors.push("Email is invalid");
-        if(password.length === 0) errors.push("Password is required");
-        if(password.length < 8) errors.push("Password must be at least 8 characters");
-        if (errors.length === 0) {
-            try {
-                const {token} =  await loginRequest(email, password);
-                const {name, profile_picture} = await getInfosAboutMe(token);
+    const { setUser } = useContext(AuthContext);
 
-                setUser({
-                    email: email,
-                    name: name,
-                    token: token,
-                    profile_picture: profile_picture,
-                })
+    const navigate = useNavigate();
+
+    async function validate() {
+        const errors: string[] = [];
+        if (email.length === 0) errors.push("Email is required");
+        if (!email.includes("@")) errors.push("Email is invalid");
+        if (password.length === 0) errors.push("Password is required");
+        if (password.length < 8) errors.push("Password must be at least 8 characters");
+        if (errors.length === 0) {
+            let token_auth = "";
+
+            try {
+                const { token } = await loginRequest(email, password);
+                token_auth = token;
+                try {
+                    const { name, profile_picture, rooms } = await getInfosAboutMe(token_auth);
+                    setUser({
+                        email: email,
+                        name: name,
+                        token: token_auth,
+                        profile_picture: profile_picture,
+                        rooms: rooms
+                    })
+                    navigate("/dashboard/1")
+                } catch (e) {
+                    console.log(e);
+                    errors.push("An error occured. Please try again later.");
+                    setErrorMessages(errors);
+                }
             } catch (e) {
-                console.log(e);
-                errors.push("An error occured. Please try again later.");
+                console.log("CATCHED")
+                errors.push("Invalid credentials");
+                setErrorMessages(errors);
             }
-        }else {
+        } else {
             setErrorMessages(errors);
         }
     }
