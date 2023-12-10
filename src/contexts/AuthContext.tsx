@@ -1,8 +1,10 @@
 import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export const default_auth: Auth = {
+export const default_auth: User = {
   name: "",
+  email: "",
+  profile_picture: "",
   token: "",
 }
 
@@ -34,36 +36,66 @@ export async function loginRequest(email: string, password: string): Promise<{ t
   return (await data.json()).data;
 }
 
-export interface Auth {
+export async function getInfosAboutMe(token: string): Promise<{
+  id: string,
+  name: string,
+  profile_picture: string,
+  email: string,
+}> {
+  const data = await fetch(import.meta.env.VITE_API_ENDPOINT + "/users/me", {
+    method: "GET",
+    headers: {
+      "Authorization": "Bearer " + token,
+    }
+  });
+  return (await data.json()).data;
+}
+
+export interface User {
   name: string,
   token: string,
+  email: string,
+  profile_picture: string,
 }
 
 export const AuthContext = createContext<{
-  auth: Auth;
-  setAuth: (auth: Auth) => void;
-}>({ auth: default_auth, setAuth: () => { } });
+  user: User;
+  setUser: (auth: User) => void;
+}>({ user: default_auth, setUser: () => { } });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [auth, setAuth] = useState<Auth>(default_auth);
+  const [user, setUser] = useState<User>(default_auth);
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(auth)
-    if (!auth.token) {
+    console.log(user)
+    if(!user.token && localStorage.getItem("token")){
+      getInfosAboutMe(localStorage.getItem("token") || "").then((data) => {
+        setUser({
+          name: data.name,
+          email: data.email,
+          profile_picture: data.profile_picture,
+          token: localStorage.getItem("token") || "",
+        })
+      }).catch((e) => {
+        console.log(e);
+      })
+    }
+    if (!user.token) {
       navigate("/login")
       return
     }
-    if (auth.token === "") {
+    if (user.token === "") {
       navigate("/login")
       return
     }else{
+      localStorage.setItem("token", user.token);
       navigate("/dashboard/1");
     }
-  }, [auth]);
+  }, [user]);
 
   return (
-    <AuthContext.Provider value={{ auth, setAuth }}>
+    <AuthContext.Provider value={{ user: user, setUser: setUser }}>
       {children}
     </AuthContext.Provider>
   );

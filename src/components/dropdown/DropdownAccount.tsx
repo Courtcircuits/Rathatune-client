@@ -8,7 +8,7 @@ import { DropdownMenu, SectionSeparator } from "./Dropdown";
 import { AuthContext, default_auth } from "../../contexts/AuthContext";
 
 export default function DropdownAccount() {
-    const {auth, setAuth} = useContext(AuthContext);
+    const {user: auth, setUser: setAuth} = useContext(AuthContext);
     return (
         <DropdownMenu>
             <p className="text-tint600 mx-5 text-sm">{auth.name}</p>
@@ -17,6 +17,8 @@ export default function DropdownAccount() {
             <SectionSelector section_name="Log out" danger icon={<LogOutIcon width={20} height={20}/>} onClick={()=>{
                 localStorage.removeItem("token");
                 setAuth({
+                    email: "",
+                    profile_picture: "",
                     name: "",
                     token: "",
                 })

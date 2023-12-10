@@ -1,13 +1,14 @@
 import { IconButton, WarningButton } from "../components/Button";
 import GoogleIcon from "../assets/icon/google.tsx";
 import { useContext, useState } from "react";
-import { AuthContext, loginRequest } from "../contexts/AuthContext.tsx";
+import { AuthContext, getInfosAboutMe, loginRequest } from "../contexts/AuthContext.tsx";
+import { Link } from "react-router-dom";
 
 function Login() {
     const [email, setEmail] = useState("");
     const [errorMessages, setErrorMessages] = useState<string[]>([]); // ["Email is required", "Email is invalid"
     const [password, setPassword] = useState("");
-    const {setAuth} = useContext(AuthContext);
+    const {setUser} = useContext(AuthContext);
     
     async function validate(){
         const errors: string[] = [];
@@ -18,9 +19,13 @@ function Login() {
         if (errors.length === 0) {
             try {
                 const {token} =  await loginRequest(email, password);
-                setAuth({
-                    name: email,
+                const {name, profile_picture} = await getInfosAboutMe(token);
+
+                setUser({
+                    email: email,
+                    name: name,
                     token: token,
+                    profile_picture: profile_picture,
                 })
             } catch (e) {
                 console.log(e);
@@ -54,6 +59,7 @@ function Login() {
                 <p className="text-center pt-2 font-thin text-sm text-warn">{
                     errorMessages[0]
                 }</p>
+                <Link to="/register" className="text-center pt-2 font-light text-sm text-tint500 hover:underline">Don't have an account ? Register here</Link>
                 <p className="text-center pt-10 font-light text-sm text-tint400">
                     If you forgot your password, you’re fucked
                     so manage to pick one that you’ll remember. Even though as the old man use to say : <i>"a good password is one that you can't remember"</i> so in either case you're fucked.
