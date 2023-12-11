@@ -3,7 +3,7 @@ import Button, { IconButton } from "../Button";
 import Dialog from "./Dialog";
 import LinkIcon from "../../assets/icon/link";
 import { Field } from "../../views/Login";
-import { RoomContext, getLinkToRoom } from "../../contexts/RoomContext";
+import { RoomContext, getLinkToRoom, sendInvitation } from "../../contexts/RoomContext";
 
 export default function DialogInvitation({children}: {children: React.ReactNode}) {
     const [open, setOpen] = useState(false);
@@ -41,7 +41,10 @@ export default function DialogInvitation({children}: {children: React.ReactNode}
                 </span>
                 <span className="w-[24%]">
                 <Button type="primary" onClick={() => {
-                    console.log("send email to "+email);
+                    if(room == undefined) return;
+                    sendInvitation(email, room.id).then(() => {
+                        setEmail("");
+                    })
                 }}>Send</Button>
                 </span>
                 </div>
@@ -52,7 +55,6 @@ export default function DialogInvitation({children}: {children: React.ReactNode}
                 <div className="w-1/3 h-[1px] bg-tint300"></div>
             </div>
             <div className="py-2">
-
                 <p>Send this link to your friend to invite him to the group !</p>
                 <IconButton type="primary" onClick={() =>{
                     navigator.clipboard.writeText(link);

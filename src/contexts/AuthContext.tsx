@@ -40,7 +40,7 @@ export async function registerRequest(name: string, email: string, password: str
   return (await data.json()).data;
 }
 
-export async function loginRequest(email: string, password: string): Promise<{ type: string, token: string }> {
+export async function loginRequest(email: string, password: string): Promise<{ token: string, room: string }> {
   const form_data = new URLSearchParams();
   form_data.append("email", email);
   form_data.append("password", password);
@@ -53,8 +53,9 @@ export async function loginRequest(email: string, password: string): Promise<{ t
     if (data.status != 200) {
       throw new Error("Invalid credentials");
     }
-    return (await data.json()).data;
+    return (await data.json());
   } catch (e) {
+    console.log(e);
     throw new Error("Invalid credentials");
   }
 
@@ -74,7 +75,6 @@ export async function getInfosAboutMe(): Promise<{
     method: "GET",
     credentials: "include",
   });
-  console.log("STATUS :" + data.status)
   if (data.status === 400 || data.status === 401) {
     throw new Error("User not found");
   }

@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import Check from "../../assets/icon/check";
 import CrossIcon from "../../assets/icon/cross";
 import LogOutIcon from "../../assets/icon/log-out";
@@ -7,14 +7,35 @@ import { IconButton } from "../Button";
 import { DropdownMenu, SectionSeparator } from "./Dropdown";
 import { AuthContext, default_auth, logoutRequest } from "../../contexts/AuthContext";
 
+interface Invitation {
+    room: string;
+    sender: string;
+    invite_code: string;
+}
+
 export default function DropdownAccount() {
-    const {user: auth, setUser: setAuth} = useContext(AuthContext);
+    const { user: auth, setUser: setAuth } = useContext(AuthContext);
+    const [invitations, setInvitations] = useState<Invitation[]>([]);
+    useEffect(() => {
+        fetch(import.meta.env.VITE_API_ENDPOINT + "/invite/get", {
+            method: "GET",
+            credentials: "include",
+        }).then((data) => {
+            if (data.status === 400 || data.status === 401) {
+                throw new Error("Room not found");
+            } else {
+                return data.json();
+            }
+        }).then((data) => {
+            setInvitations(data);
+        })
+    }, [])
     return (
         <DropdownMenu>
             <p className="text-tint600 mx-5 text-sm">{auth.name}</p>
             <SectionSelector section_name="Dashboard" icon={<></>} />
             <SectionSelector section_name="Settings" icon={<SettingsIcon width={20} height={20} />} />
-            <SectionSelector section_name="Log out" danger icon={<LogOutIcon width={20} height={20}/>} onClick={()=>{
+            <SectionSelector section_name="Log out" danger icon={<LogOutIcon width={20} height={20} />} onClick={() => {
                 logoutRequest().then(() => {
                     setAuth(default_auth);
                 })
@@ -22,8 +43,10 @@ export default function DropdownAccount() {
             <div className="mx-5">
                 <SectionSeparator />
                 <p className="text-tint600 text-sm">Invitations</p>
-                <Invitation from="John Doe" room="🌴 Vacances  à Tahiti" />
-                <Invitation from="John Doe" room="🌴 Vacances  à Tahiti" />
+                {
+                    invitations.length === 0 ? <p className="text-tint500 text-sm">No invitations</p> :
+                    invitations.map((invitation, index) => <Invitation key={index} from={invitation.sender} room={invitation.room} uid={invitation.invite_code} />)
+                }
             </div>
         </DropdownMenu>
     )
@@ -44,17 +67,49 @@ function SectionSelector({ section_name, icon, danger, onClick }: { section_name
     )
 }
 
-function Invitation({ from, room }: { from: string, room: string }) {
+interface InvitationResponseData {
+    id: string;
+    room_id: string;
+    sender_id: string;
+    receiver_id: string;
+    status: string;
+    created_at: string;
+    updated_at: string;
+    invite_code: string;
+}
+
+function Invitation({ from, room, uid }: { from: string, room: string, uid: string }) {
     return (
         <div className="flex flex-row py-5 border-b-1 border-b-tint300 last:border-b-0">
             <p className="w-3/4"><b>{from}</b> invited you to <b>{room}</b></p>
             <div className="w-1/4 flex flex-row justify-between">
                 <div className="w-[50px] h-[20px]">
-                    <IconButton onClick={() => { }} text="" type="accept" icon={<Check height={20} width={20} />} />
+                    <IconButton onClick={() => {
+                        fetch(import.meta.env.VITE_API_ENDPOINT + "/invite/join/" + uid, {
+                            method: "GET",
+                            credentials: "include",
+                        }).then((data) => {
+                            if (data.status === 400 || data.status === 401) {
+                                throw new Error("Room not found");
+                            }
+                            return data.json();
+                        }).then((data: InvitationResponseData) => {
+                            console.log(data);
+                            location.href = import.meta.env.VITE_CLIENT_ENDPOINT + "/dashboard/" + data.room_id;
+                        })
+                    }} text="" type="accept" icon={<Check height={20} width={20} />} />
                 </div>
-
                 <div className="w-[50px] h-[20px]">
-                    <IconButton onClick={() => { }} text="" type="warning" icon={<CrossIcon height={20} width={20} />} />
+                    <IconButton onClick={() => {
+                        fetch(import.meta.env.VITE_API_ENDPOINT + "/invite/deny/" + uid, {
+                            method: "GET",
+                            credentials: "include",
+                        }).then((data) => {
+                            if (data.status === 400 || data.status === 401) {
+                                throw new Error("Room not found");
+                            }
+                        })
+                    }} text="" type="warning" icon={<CrossIcon height={20} width={20} />} />
                 </div>
             </div>
         </div>

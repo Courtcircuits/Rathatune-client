@@ -22,7 +22,7 @@ export default function Transaction({ transaction }: { transaction: ITransaction
                 <div className="flex-grow border-b-1 border-dashed"></div>
                 <div className="pl-5">
                     <p className="text-warn font-bold text-xl">{transaction.amount} €</p>
-                    <p className="text-xs">{transaction.date.toLocaleDateString()}</p>
+                    <p className="text-xs">{new Date(transaction.date).toLocaleDateString()}</p>
                 </div>
             </div>
         </div>

@@ -40,7 +40,7 @@ export default function RoomLayout({ subtitle, children }: { children: React.Rea
             </div>
         </div>
         <div className="my-2">
-            <UserList users={room.members} />
+            <UserList users={room.members.map((user)=> user.name)} />
         </div>
         {
             children

@@ -22,25 +22,26 @@ function Login() {
             let token_auth = "";
 
             try {
-                const { token } = await loginRequest(email, password);
+                const { token, room } = await loginRequest(email, password);
                 token_auth = token;
                 try {
-                    const { name, profile_picture, rooms } = await getInfosAboutMe(token_auth);
-                    setUser({
-                        email: email,
-                        name: name,
-                        token: token_auth,
-                        profile_picture: profile_picture,
-                        rooms: rooms
-                    })
-                    navigate("/dashboard/1")
+                    // const { name, profile_picture, rooms, id } = await getInfosAboutMe();
+                    // setUser({
+                    //     email: email,
+                    //     name: name,
+                    //     id: id,
+                    //     profile_picture: profile_picture,
+                    //     rooms: rooms
+                    // })
+                    console.log("ROOM", room)
+                    navigate("/dashboard/"+room)
                 } catch (e) {
                     console.log(e);
                     errors.push("An error occured. Please try again later.");
                     setErrorMessages(errors);
                 }
             } catch (e) {
-                console.log("CATCHED")
+                console.log(e)
                 errors.push("Invalid credentials");
                 setErrorMessages(errors);
             }
@@ -55,7 +56,9 @@ function Login() {
                 <h1 className="heading-1 pb-5">Log in</h1>
                 <IconButton icon={
                     <GoogleIcon width={25} height={25} />
-                } text="Continue with Google" type="primary" onClick={() => { }} />
+                } text="Continue with Google" type="primary" onClick={() => {
+                    window.location.href = import.meta.env.VITE_API_ENDPOINT + "/google/redirect";
+                }} />
 
                 <hr className="text-tint300 w-full my-10"></hr>
                 <Field label="Email" placeholder="Enter your email address..." type="email" value={email} onChange={(value) =>

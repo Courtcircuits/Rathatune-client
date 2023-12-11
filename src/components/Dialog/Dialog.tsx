@@ -3,6 +3,8 @@ import { Field } from "../../views/Login";
 import Button, { IconButton } from "../Button";
 import AddIcon from "../../assets/icon/plus-circle";
 import CrossIcon from "../../assets/icon/cross";
+import { useNavigate } from "react-router-dom";
+import { createGroup } from "../../contexts/RoomContext";
 
 export default function Dialog({
     title,
@@ -122,7 +124,6 @@ export function DialogWindow({
         </div>
     )
 }
-
 export function DialogCreateGroup({
     children
 }: {
@@ -132,6 +133,7 @@ export function DialogCreateGroup({
     const [groupMembers, setGroupMembers] = React.useState<string[]>([""]);
     const [open, setOpen] = React.useState(false);
     const [error, setError] = React.useState("");
+    const navigate = useNavigate();
 
     function checkIfValid(): string | boolean {
         if (groupName === "") {
@@ -156,6 +158,9 @@ export function DialogCreateGroup({
     const next = <Button type="secondary" onClick={() => {
         const valid = checkIfValid();
         if (valid === true) {
+            createGroup(groupName, groupMembers).then((id) => {
+                navigate("/dashboard/" + id);
+            })
             setError("");
             setOpen(false);
         } else {

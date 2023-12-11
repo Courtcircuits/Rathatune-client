@@ -5,7 +5,11 @@ import { useLocation, useParams } from "react-router-dom";
 export interface Room {
   name: string;
   id: string;
-  members: string[];
+  members: {
+    name: string,
+    id: string,
+  
+  }[];
   transactions: ITransaction[];
 }
 
@@ -37,14 +41,14 @@ export async function getRoom(id: string): Promise<Room> {
 const rooms: Room[] = [{
   name: "Vacances  à Tahiti",
   id: "1",
-  members: ["You", "Denis", "Ken"],
+  members: [],
   transactions: []
 }];
 
 export function computeDebts(room: Room): { member: string, amount: number }[] {
   let toReturn: { member: string, amount: number }[] = [];
   for (let member of room.members) {
-    toReturn.push({ member: member, amount: 0 });
+    toReturn.push({ member: member.name, amount: 0 });
   }
   for (let transaction of room.transactions) {
     const senderIndex = toReturn.findIndex((value) => value.member === transaction.sender);
@@ -54,6 +58,38 @@ export function computeDebts(room: Room): { member: string, amount: number }[] {
   }
   return toReturn.sort((a, b) => b.amount - a.amount);
 }
+
+
+export async function sendInvitation(email: string, roomId: string): Promise<void> {
+  const formData = new FormData();
+  formData.append("room_id", roomId);
+  formData.append("receiver", email);
+  const data = await fetch(import.meta.env.VITE_API_ENDPOINT + "/invite/send", {
+    method: "POST",
+    credentials: "include",
+    body: formData,
+  });
+  if (data.status === 400 || data.status === 401) {
+    throw new Error("Room not found");
+  }
+
+}
+
+export async function createGroup(groupName: string, groupMembers: string[]): Promise<string> {
+  const formData = new FormData();
+  formData.append("name", groupName);
+  const data = await fetch(import.meta.env.VITE_API_ENDPOINT + "/room/create", {
+    method: "POST",
+    credentials: "include",
+    body: formData,
+  });
+  if (data.status === 400 || data.status === 401) {
+    throw new Error("Room not found");
+  }
+  return (await data.json()).room.id;
+}
+
+
 
 export const RoomContext = createContext<{
   room: Room | undefined;
