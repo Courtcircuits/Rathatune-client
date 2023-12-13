@@ -3,7 +3,7 @@ run-name: ${{ github.actor }} is building and pushing the image of the backend t
 on:
   push:
     branches:
-    - master
+    - main
 
 jobs:
   push_to_registry:
