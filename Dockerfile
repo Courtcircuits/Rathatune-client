@@ -11,7 +11,7 @@ ARG VITE_CLIENT_ENDPOINT=https://ratathune.fr
 ENV VITE_CLIENT_ENDPOINT=${VITE_CLIENT_ENDPOINT}
 
 COPY package*.json .
-RUN npm install --production
+RUN npm install
 
 COPY . .
 RUN npm run build
