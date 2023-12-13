@@ -68,7 +68,6 @@ export function DialogWindow({
     children,
     back,
     next,
-    open,
     setOpen
 }: {
     title: string,
@@ -158,7 +157,7 @@ export function DialogCreateGroup({
     const next = <Button type="secondary" onClick={() => {
         const valid = checkIfValid();
         if (valid === true) {
-            createGroup(groupName, groupMembers).then((id) => {
+            createGroup(groupName).then((id) => {
                 navigate("/dashboard/" + id);
             })
             setError("");

@@ -1,14 +1,13 @@
 import { IconButton, WarningButton } from "../components/Button";
 import GoogleIcon from "../assets/icon/google.tsx";
-import { useContext, useState } from "react";
-import { AuthContext, getInfosAboutMe, loginRequest } from "../contexts/AuthContext.tsx";
+import { useState } from "react";
+import { loginRequest } from "../contexts/AuthContext.tsx";
 import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
     const [email, setEmail] = useState("");
     const [errorMessages, setErrorMessages] = useState<string[]>([]); // ["Email is required", "Email is invalid"
     const [password, setPassword] = useState("");
-    const { setUser } = useContext(AuthContext);
 
     const navigate = useNavigate();
 
@@ -19,22 +18,10 @@ function Login() {
         if (password.length === 0) errors.push("Password is required");
         if (password.length < 8) errors.push("Password must be at least 8 characters");
         if (errors.length === 0) {
-            let token_auth = "";
-
             try {
-                const { token, room } = await loginRequest(email, password);
-                token_auth = token;
+                const { room } = await loginRequest(email, password);
                 try {
-                    // const { name, profile_picture, rooms, id } = await getInfosAboutMe();
-                    // setUser({
-                    //     email: email,
-                    //     name: name,
-                    //     id: id,
-                    //     profile_picture: profile_picture,
-                    //     rooms: rooms
-                    // })
-                    console.log("ROOM", room)
-                    navigate("/dashboard/"+room)
+                    navigate("/dashboard/" + room)
                 } catch (e) {
                     console.log(e);
                     errors.push("An error occured. Please try again later.");

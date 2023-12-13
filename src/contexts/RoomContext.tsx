@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { ITransaction } from "../components/Transaction";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 export interface Room {
   name: string;
@@ -75,14 +75,14 @@ export async function sendInvitation(email: string, roomId: string): Promise<voi
 
 }
 
-export async function createGroup(groupName: string, groupMembers: string[]): Promise<string> {
+export async function createGroup(groupName: string): Promise<string> {
   const formData = new FormData();
   formData.append("name", groupName);
   const data = await fetch(import.meta.env.VITE_API_ENDPOINT + "/room/create", {
     method: "POST",
     credentials: "include",
     body: formData,
-  });
+  })
   if (data.status === 400 || data.status === 401) {
     throw new Error("Room not found");
   }
@@ -102,7 +102,7 @@ export const RoomContext = createContext<{
 export function RoomProvider({ children }: { children: React.ReactNode }) {
   const [room, setRoom] = useState<Room | undefined>(rooms[0]);
   const params = useParams();
-  const [roomId, setRoomId] = useState<string>("1");
+  const [_, setRoomId] = useState<string>("1");
 
   useEffect(() => {
     if (params.id === undefined) return;

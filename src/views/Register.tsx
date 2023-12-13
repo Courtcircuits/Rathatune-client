@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { IconButton, WarningButton } from "../components/Button";
 import GoogleIcon from "../assets/icon/google";
 import { Field } from "./Login";
-import { User, AuthContext, loginRequest, registerRequest, getInfosAboutMe } from "../contexts/AuthContext";
+import { AuthContext, loginRequest, registerRequest } from "../contexts/AuthContext";
 import { Link } from "react-router-dom";
 
 
@@ -11,7 +11,7 @@ function Register() {
     const [name, setName] = useState("");
     const [errorMessages, setErrorMessages] = useState<string[]>([]); // ["Email is required", "Email is invalid"
     const [password, setPassword] = useState("");
-    const { user: auth, setUser: setAuth } = useContext(AuthContext);
+    const { setUser: setAuth } = useContext(AuthContext);
 
     async function validate() {
         const errors: string[] = [];
@@ -22,7 +22,6 @@ function Register() {
         if (name.length === 0) errors.push("Name is required");
         if (errors.length === 0) {
             try {
-                let token_auth = "";
                 const { user_id } = await registerRequest(name, email, password);
                 if (!user_id) {
                     errors.push("An error occured. Please try again later.");
@@ -30,8 +29,7 @@ function Register() {
                     return;
                 }
                 try {
-                    const { token } = await loginRequest(email, password);
-                    token_auth = token;
+                    await loginRequest(email, password); // will set the cookie
                 } catch (e) {
                     console.log(e);
                     errors.push("An error occured. Please try again later.");
@@ -40,10 +38,10 @@ function Register() {
                 }
                 setAuth({
                     email: email,
-                    profile_picture: "", // profile picture can't be set here because it's not in the register request
+                    profile_picture: "",
                     name: name,
-                    token: token_auth,
-                    rooms: [], // rooms can't be set here because it's not in the register request
+                    rooms: [],
+                    id: user_id
                 })
             } catch (e) {
                 console.log(e);

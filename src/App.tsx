@@ -8,8 +8,6 @@ import RoomSettings from "./views/RoomSettings"
 import { AuthProvider } from "./contexts/AuthContext"
 import Register from "./views/Register"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-import { Provider } from "react-redux"
-import store from "./store/store"
 import Share from "./views/Share"
 
 const router = createBrowserRouter([
@@ -19,7 +17,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <AuthProvider><Login/></AuthProvider>,
+    element: <AuthProvider><Login /></AuthProvider>,
   },
   {
     path: "/register",
@@ -57,11 +55,9 @@ const queryClient = new QueryClient()
 
 function App() {
   return (
-    <Provider store={store}>
-      <QueryClientProvider client={queryClient}>
-          <RouterProvider router={router} />
-      </QueryClientProvider>
-    </Provider>
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
   )
 }
 

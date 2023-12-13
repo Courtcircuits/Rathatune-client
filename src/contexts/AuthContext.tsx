@@ -104,7 +104,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     getInfosAboutMe().then((data) => {
       if (data.id === user.id) return;
-      setUser((user) => {
+      setUser(() => {
         return {
           id: data.id,
           name: data.name,
@@ -114,7 +114,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
       }
       )
-    }).catch((e) => {
+    }).catch(() => {
       navigate("/login");
     })
   }, [user]);

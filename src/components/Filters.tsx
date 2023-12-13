@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation} from "react-router-dom";
 import { RoomContext } from "../contexts/RoomContext";
 
 function Filters() {

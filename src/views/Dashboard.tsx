@@ -1,5 +1,5 @@
 import Filters from "../components/Filters";
-import { RoomContext, RoomProvider } from "../contexts/RoomContext";
+import { RoomProvider } from "../contexts/RoomContext";
 import Header from "../components/Header";
 import { Outlet } from "react-router-dom";
 
