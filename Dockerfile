@@ -13,9 +13,7 @@ ENV VITE_CLIENT_ENDPOINT=${VITE_CLIENT_ENDPOINT}
 
 COPY . .
 
-RUN npm install
-
-RUN npm run build
+RUN npm install && npm run build
 
 FROM nginx:1.25.3-alpine
 COPY nginx.conf /etc/nginx/conf.d/default.conf
