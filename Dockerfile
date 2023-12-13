@@ -1,8 +1,8 @@
 FROM node:20-alpine AS builder
 WORKDIR /app
 
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
+# ARG NODE_ENV=production
+# ENV NODE_ENV=${NODE_ENV}
 
 ARG VITE_API_ENDPOINT=https://api.ratathune.fr
 ENV VITE_API_ENDPOINT=${VITE_API_ENDPOINT}
