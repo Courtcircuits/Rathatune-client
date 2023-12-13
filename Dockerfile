@@ -10,10 +10,11 @@ ENV VITE_API_ENDPOINT=${VITE_API_ENDPOINT}
 ARG VITE_CLIENT_ENDPOINT=https://ratathune.fr
 ENV VITE_CLIENT_ENDPOINT=${VITE_CLIENT_ENDPOINT}
 
-COPY package*.json .
-RUN npm install
 
 COPY . .
+
+RUN npm install
+
 RUN npm run build
 
 FROM nginx:1.25.3-alpine
