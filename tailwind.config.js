@@ -35,6 +35,7 @@ export default {
       },
       fontFamily: {
         'primary' : ['Inter', 'sans-serif'],
+        'fun': ['Coming Soon', 'cursive'],
       },
     },
   },

@@ -1,5 +1,6 @@
 import React, { ReactNode, useEffect, useRef, useState } from "react";
 import SearchIcon from "../../assets/icon/search";
+import { useLocation } from "react-router-dom";
 
 interface DropdownProps {
   triggerComponent: ReactNode,
@@ -10,6 +11,11 @@ function Dropdown({ triggerComponent, menu }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const refMenuComponent = useRef<HTMLDivElement>(null);
   const refTriggerComponent = useRef<HTMLButtonElement>(null);
+  const location = useLocation();
+
+  useEffect(() => {
+    setIsOpen(false);
+  }, [location])
 
   const toggle = (e: MouseEvent) => {
     if (!isOpen) {
@@ -76,7 +82,7 @@ function DropdownMenu({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <div ref={refMenuContainer} className="absolute mt-4 py-4 border-1 border-tint400 bg-tint0 rounded-sm">
+    <div ref={refMenuContainer} className="absolute mt-4 py-4 z-50 border-1 border-tint400 bg-tint0 rounded-sm">
       {children}
     </div>
   );

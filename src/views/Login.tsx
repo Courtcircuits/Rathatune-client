@@ -5,11 +5,15 @@ import { loginRequest } from "../contexts/AuthContext.tsx";
 import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
-    const [email, setEmail] = useState("");
+    const [email, setEmail] = useState<string>("");
     const [errorMessages, setErrorMessages] = useState<string[]>([]); // ["Email is required", "Email is invalid"
-    const [password, setPassword] = useState("");
+    const [password, setPassword] = useState<string>("");
 
     const navigate = useNavigate();
+
+    function validePassword(password: string): boolean {
+        return password.length >= 8;
+    }
 
     async function validate() {
         const errors: string[] = [];
@@ -51,8 +55,14 @@ function Login() {
                 <Field label="Email" placeholder="Enter your email address..." type="email" value={email} onChange={(value) =>
                     setEmail(value)
                 } />
-                <Field label="Password" placeholder="Enter your password..." type="password" value={password} onChange={(value) =>
+                <Field label="Password" placeholder="Enter your password..." type="password" value={password} onChange={(value) =>{                   
                     setPassword(value)
+                    if(!validePassword(value)){
+                        setErrorMessages(["Password must be at least 8 characters"])
+                    }else {
+                        setErrorMessages([])
+                    }
+                } 
                 } />
                 <div className="py-2 w-full">
                     <WarningButton text="Continue with email" onClick={() => {

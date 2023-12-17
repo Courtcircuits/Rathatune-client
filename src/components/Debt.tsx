@@ -17,6 +17,7 @@ export default function Debt({
         color = "border-tint400 bg-lighttint400";
     }
     let colorText = amount > 0 ? "text-warn" : "text-green";
+    let align = amount < 0 ? "justify-end" : "justify-start";
     if (amount === 0) {
         colorText = "text-tint400";
     }
@@ -45,7 +46,7 @@ export default function Debt({
                 <UserCard king={parseInt(index) - 1 === 0} name={name} url={"https://vercel.com/api/www/avatar/?u=" + name.toLowerCase() + "&s=60"} />
             </div>
             <HelpDebt message={message}>
-                <div className="w-12/12 flex flex-row items-center justify-end hover:cursor-help hover:bg-tint100 rounded-sm py-1 px-1">
+                <div className={"w-12/12 flex flex-row items-center "+align+" hover:cursor-help opacity-40 hover:opacity-100 transition-all ease-linear duration-150 rounded-sm py-1 px-1"}>
                     {
                         amount < 0 ? null : <div className="w-1/2"></div>
                     }

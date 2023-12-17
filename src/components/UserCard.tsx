@@ -1,4 +1,11 @@
+import Rat from "../assets/rat.png";
+
 export function UserCard({ name, url, king }: { name: string, url: string, king?: boolean }) {
+    if (name === "Rat"){
+        return (
+            <img className="w-11 rounded-full " src={Rat} alt="Profile picture" />
+        )
+    }
     if (king) {
         return (
             <div title={name} className="flex flex-col relative items-center after:content-[attr(title)] after:text-sm after:truncate">

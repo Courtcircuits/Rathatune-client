@@ -1,6 +1,6 @@
 type ButtonType = "primary" | "secondary" | "tertiary" | "warning" | "accept";
 
-function Button({ children, onClick, type, small }: { children: React.ReactNode, onClick: () => void, type: ButtonType, small?: boolean }) {
+function Button({ children, onClick, type, small }: { children: React.ReactNode, onClick?: () => void, type: ButtonType, small?: boolean }) {
     const colors = {
         primary: "border-tint300 text-tint700 hover:bg-tint200 stroke-tint700",
         secondary: "bg-tint700 border-tint700 text-tint50 hover:bg-tint600  hover:text-tint50 stroke-tint50 hover:stroke-tint50",
@@ -21,7 +21,7 @@ function Button({ children, onClick, type, small }: { children: React.ReactNode,
 }
 
 function IconButton(props: {
-    onClick: () => void,
+    onClick?: () => void,
     icon: React.ReactNode,
     text?: string
     type: ButtonType,

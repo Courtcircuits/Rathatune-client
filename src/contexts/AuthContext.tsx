@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export const default_auth: User = {
   id: "",
@@ -100,6 +100,7 @@ export const AuthContext = createContext<{
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User>(default_auth);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     getInfosAboutMe().then((data) => {
@@ -115,6 +116,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
       )
     }).catch(() => {
+      if(location.pathname === "/login" || location.pathname === "/register") return;
       navigate("/login");
     })
   }, [user]);

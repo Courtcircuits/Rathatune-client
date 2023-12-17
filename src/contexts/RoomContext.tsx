@@ -93,21 +93,25 @@ export async function createGroup(groupName: string): Promise<string> {
 
 export const RoomContext = createContext<{
   room: Room | undefined;
+  isLoading: boolean;
   setRoomId: (id: string) => void;
 }>({
   room: rooms[0],
   setRoomId: () => { },
+  isLoading: false,
 })
 
 export function RoomProvider({ children }: { children: React.ReactNode }) {
   const [room, setRoom] = useState<Room | undefined>(rooms[0]);
   const params = useParams();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [_, setRoomId] = useState<string>("1");
 
   useEffect(() => {
     if (params.id === undefined) return;
+    setIsLoading(true);
     getRoom(params.id).then((data) => {
-      console.log(data);
+      setIsLoading(false);
       setRoom(data);
     }).catch((e) => {
       console.log(e);
@@ -117,7 +121,7 @@ export function RoomProvider({ children }: { children: React.ReactNode }) {
 
 
   return (
-    <RoomContext.Provider value={{ room, setRoomId }}>
+    <RoomContext.Provider value={{ room, setRoomId, isLoading }}>
       {children}
     </RoomContext.Provider>
   )

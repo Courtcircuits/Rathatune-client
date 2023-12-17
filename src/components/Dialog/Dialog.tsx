@@ -94,7 +94,7 @@ export function DialogWindow({
     }, [backgroundRef, dialogRef]);
 
     return (
-        <div className="flex flex-col w-screen h-screen fixed bg-tintOpac0 backdrop-blur-sm top-0 left-0 justify-center items-center" ref={backgroundRef}>
+        <div className="z-50 flex flex-col w-screen h-screen fixed bg-tintOpac0 backdrop-blur-sm top-0 left-0 justify-center items-center" ref={backgroundRef}>
             <div ref={dialogRef}>
                 <div className="border-1 rounded-tl-sm rounded-tr-sm border-tint300 bg-tint0 px-7 py-6">
                     <section className="py-3">
