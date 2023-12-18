@@ -1,0 +1,9 @@
+apiVersion: v2
+name: ratathune-front
+description: A Helm chart for ratathune front application
+home: ratathune.fr
+sources:
+- https://github.com/Courtcircuits/Ratathune-client
+type: application
+version: 0.1.0
+appVersion: "1.16.0"

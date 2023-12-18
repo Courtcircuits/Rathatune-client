@@ -36,8 +36,8 @@ jobs:
           file: ./dockerfile
           push: true
           tags: |
-            milou666/${{ secrets.docker_image_name }}:latest
-            milou666/${{ secrets.docker_image_name }}:${{ env.tag }}
+            latest
+            ${{ env.tag }}
           labels: ${{ steps.meta.outputs.labels }}
   deploy:
     name: deploy projet
@@ -48,7 +48,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Update values.yaml
         run: |
-          cd deployment/back
+          cd deployment/front
           sed -i 's|tag:.*|tag: "${{ env.tag }}"|' values.yaml
           git config --global user.name "CI deployment"
           git config --global user.email "ci.deployment.ratathune@users.noreply.github.com"
