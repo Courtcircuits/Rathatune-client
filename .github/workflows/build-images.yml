@@ -35,7 +35,7 @@ jobs:
           push: true
           tags: |
             milou666/${{ secrets.DOCKER_IMAGE_NAME }}:latest
-            milou666/${{ secrets.DOCKER_IMAGE_NAME }}${{ env.tag }}
+            milou666/${{ secrets.DOCKER_IMAGE_NAME }}${{ env.TAG }}
           labels: ${{ steps.meta.outputs.labels }}
 
   deploy:
@@ -45,10 +45,13 @@ jobs:
     steps:
       - name: Checkout the repo
         uses: actions/checkout@v4
+      - name: Extract version and set it to TAG env var
+        run: |
+          echo "TAG=$(jq -r '.version' package.json)" >> $GITHUB_ENV
       - name: Update values.yaml
         run: |
           cd deployment/front
-          sed -i 's|tag:.*|tag: "${{ env.tag }}"|' values.yaml
+          sed -i 's|tag:.*|tag: "${{ env.TAG }}"|' values.yaml
           git config --global user.name "CI deployment"
           git config --global user.email "ci.deployment.ratathune@users.noreply.github.com"
           git add values.yaml
