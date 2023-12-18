@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: ratathune-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ratathune-server
+  template:
+    metadata:
+      labels:
+        app: ratathune-server
+    spec:
+      containers:
+      - name: ratathune-server
+        image: {{ .Values.image.repository }}-server:{{ .Values.image.tag }}
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: {{ .Values.backend.port }}
+        env:
+        - name: HOST
+          valueFrom:
+            configMapKeyRef:
+              name: app-configmap
+              key: HOST
+        - name: APP_KEY
+          valueFrom:
+            secretKeyRef:
+              name: dotfile-secret
+              key: APP_KEY
+        - name: GOOGLE_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              name: dotfile-secret
+              key: GOOGLE_CLIENT_ID
+        - name: GOOGLE_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: dotfile-secret
+              key: GOOGLE_CLIENT_SECRET
+        - name: FRONTEND_URL
+          valueFrom:
+            configMapKeyRef:
+              name: app-configmap
+              key: FRONTEND_URL
+        - name: PG_DB_NAME
+          value: {{ .Values.global.postgresql.auth.database | quote }}
+        - name: PG_USER
+          value: "postgres"
+        - name: PG_PASSWORD
+          value: {{ .Values.global.postgresql.auth.postgresPassword | quote }}
+        - name: PG_PORT
+          value: {{ .Values.global.postgresql.service.port | quote }}
+        - name: PG_HOST
+          value: {{ .Values.db.host | quote }}
+        - name: GOOGLE_CALLBACK_URL
+          valueFrom:
+            configMapKeyRef:
+              name: app-configmap
+              key: GOOGLE_CALLBACK_URL

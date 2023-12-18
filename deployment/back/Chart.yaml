@@ -1,0 +1,9 @@
+apiVersion: v2
+name: ratathune-back
+description: A Helm chart for ratathune backend
+home: api.ratathune.fr
+sources:
+- https://github.com/Courtcircuits/ratathune-server
+type: application
+version: 0.1.0
+appVersion: "1.16.0"
