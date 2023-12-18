@@ -35,7 +35,7 @@ jobs:
           push: true
           tags: |
             milou666/${{ secrets.DOCKER_IMAGE_NAME }}:latest
-            milou666/${{ secrets.DOCKER_IMAGE_NAME }}${{ env.TAG }}
+            milou666/${{ secrets.DOCKER_IMAGE_NAME }}:${{ env.TAG }}
           labels: ${{ steps.meta.outputs.labels }}
 
   deploy:
