@@ -34,9 +34,10 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            latest
-            ${{ env.tag }}
+            milou666/${{ secrets.DOCKER_IMAGE_NAME }}:latest
+            milou666/${{ secrets.DOCKER_IMAGE_NAME }}${{ env.tag }}
           labels: ${{ steps.meta.outputs.labels }}
+
   deploy:
     name: deploy projet
     runs-on: ubuntu-latest
