@@ -1,0 +1,23 @@
+backend:
+  port: "80"
+
+image:
+  tag: "main"
+  repository: "milou666/ratathune"
+
+frontend:
+  port: "80"
+
+ratathune:
+  host: "ratathune.fr"
+
+db:
+  host: "postgresql.ratathune.svc.cluster.local"
+
+global:
+  postgresql:
+    auth:
+      postgresPassword: "postgres"
+      database: "ratathune"
+    service:
+      port: "5432"

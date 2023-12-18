@@ -116,7 +116,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
       )
     }).catch(() => {
-      if(location.pathname === "/login" || location.pathname === "/register") return;
+      if (location.pathname === "/login" || location.pathname === "/register") return;
       navigate("/login");
     })
   }, [user]);
