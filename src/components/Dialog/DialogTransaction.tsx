@@ -28,7 +28,7 @@ export default function DialogCreateTransaction({
 }: {
     children: React.ReactNode
 }) {
-    const { room } = useContext(RoomContext);
+    const { room, updateRoom } = useContext(RoomContext);
     const { user } = useContext(AuthContext);
     const members = room?.members?.filter((member) => member.id !== user.id) || [];
     const [otherMember, setOtherMember] = useState<{
@@ -74,6 +74,7 @@ export default function DialogCreateTransaction({
                 // window.location.reload();
                 setError("");
                 setOpen(false);
+                updateRoom();
             })
         } else {
             setError(valid as string);
