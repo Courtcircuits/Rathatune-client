@@ -95,12 +95,12 @@ export const RoomContext = createContext<{
   room: Room | undefined;
   isLoading: boolean;
   setRoomId: (id: string) => void;
-  updateRoom: () => void;
+  updateRoom: (room_id: string) => void;
 }>({
   room: rooms[0],
   setRoomId: () => { },
   isLoading: false,
-  updateRoom: () => { }
+  updateRoom: (room_id) => { console.log("update room " + room_id) }
 })
 
 export function RoomProvider({ children }: { children: React.ReactNode }) {
@@ -109,9 +109,9 @@ export function RoomProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [_, setRoomId] = useState<string>("1");
 
-  const updateRoom = () => {
+  const updateRoom = (room_id: string) => {
     setIsLoading(true);
-    getRoom(room?.id || "").then((data) => {
+    getRoom(room_id || "").then((data) => {
       setIsLoading(false);
       setRoom(data);
     }).catch((e) => {
@@ -122,7 +122,7 @@ export function RoomProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (params.id === undefined) return;
-    updateRoom();
+    updateRoom(params.id);
   }, [params])
 
 

@@ -74,7 +74,7 @@ export default function DialogCreateTransaction({
                 // window.location.reload();
                 setError("");
                 setOpen(false);
-                updateRoom();
+                updateRoom(room?.id as string);
             })
         } else {
             setError(valid as string);
