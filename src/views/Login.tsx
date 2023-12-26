@@ -23,9 +23,9 @@ function Login() {
         if (password.length < 8) errors.push("Password must be at least 8 characters");
         if (errors.length === 0) {
             try {
-                const { room } = await loginRequest(email, password);
+                await loginRequest(email, password);
                 try {
-                    navigate("/dashboard/" + room)
+                    navigate("/dashboard")
                 } catch (e) {
                     console.log(e);
                     errors.push("An error occured. Please try again later.");

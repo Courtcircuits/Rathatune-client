@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../components/Header"
 import { Link } from "react-router-dom";
 import { DialogCreateGroup } from "../components/Dialog/Dialog";
 import Button from "../components/Button";
+import { useRoomSummary } from "../queries/room.queries";
 
 type Room = {
   name: string,
@@ -28,6 +29,27 @@ const rooms_mock: Room[] = [
 export default function HomeDashboard() {
   const [sold, setSold] = useState(0);
   const [rooms, setRooms] = useState<Room[]>(rooms_mock);
+  const { data } = useRoomSummary();
+
+  useEffect(() => {
+    if (data) {
+      console.log(data);
+      setRooms(data.map((room) => {
+        return {
+          sold: room.sold,
+          id: room.room_id.toString(),
+          name: room.name,
+          members: room.members.map((member) => {
+            return member.avatar
+          })
+        }
+      }));
+      setSold(data.reduce((acc, room) => {
+        return acc + room.sold
+      }, 0))
+    }
+  }, [data])
+
   return (
     <>
       <Header />
@@ -52,11 +74,11 @@ export default function HomeDashboard() {
             })
           }
           <DialogCreateGroup>
-              {/* <p className="mr-3 text-lg">Create a new group</p> */}
-              <div className="my-4">
-                {/* <AddIcon width={25} height={20} /> */}
-                <Button type="primary" style="px-5">+ Create a new group</Button>
-              </div>
+            {/* <p className="mr-3 text-lg">Create a new group</p> */}
+            <div className="my-4">
+              {/* <AddIcon width={25} height={20} /> */}
+              <Button type="primary" style="px-5">+ Create a new group</Button>
+            </div>
           </DialogCreateGroup>
         </section>
       </div>
