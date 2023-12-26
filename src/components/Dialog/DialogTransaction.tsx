@@ -71,7 +71,6 @@ export default function DialogCreateTransaction({
         const valid = checkIfValid();
         if (valid === true) {
             createTransaction(room?.id as string, description, parseInt(amount), type, otherMember.id).then(() => {
-                // window.location.reload();
                 setError("");
                 setOpen(false);
                 updateRoom(room?.id as string);

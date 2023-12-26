@@ -9,6 +9,7 @@ import { AuthProvider } from "./contexts/AuthContext"
 import Register from "./views/Register"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import Share from "./views/Share"
+import HomeDashboard from "./views/HomeDashboard"
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
   {
     path: "/join/:id",
     element: <AuthProvider><Share /></AuthProvider>,
+  },
+  {
+    path: "/dashboard",
+    element: <AuthProvider><HomeDashboard/></AuthProvider>,
   },
   {
     path: "/dashboard/:id",

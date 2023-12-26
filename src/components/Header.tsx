@@ -8,9 +8,9 @@ import { DialogCreateGroup } from './Dialog/Dialog';
 import AddIconPlus from '../assets/icon/plus';
 import { AuthContext } from '../contexts/AuthContext';
 import { RoomContext } from '../contexts/RoomContext';
+import { Link } from 'react-router-dom';
 
 function Header() {
-
     const headerRef = React.useRef<HTMLHeadElement>(null);
     const {user } = useContext(AuthContext);
     const {room} = useContext(RoomContext);
@@ -46,12 +46,13 @@ function Header() {
     return (
         <header ref={headerRef} className='pl-5 pr-5 fixed flex flex-row w-full items-center justify-between backdrop-blur-sm bg-tintOpac0 border-b-tint300'>
             <div className='flex flex-row items-center'>
-                <Logo />
+                <Link to="/dashboard">
+                  <Logo />
+                </Link>
                 <div className='mx-6 w-[1px] h-10 bg-tint400 '></div>
                 <Dropdown triggerComponent={dropdownTriggerComponent} menu={dropdownMenu} />
 
                 <div className='mx-3 w-[1px] h-7 bg-tint00 '></div>
-
             </div>
             <div className='flex flex-row items-center justify-between'>
                 <div className='mr-4'>

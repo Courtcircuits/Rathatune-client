@@ -1,6 +1,6 @@
 type ButtonType = "primary" | "secondary" | "tertiary" | "warning" | "accept";
 
-function Button({ children, onClick, type, small }: { children: React.ReactNode, onClick?: () => void, type: ButtonType, small?: boolean }) {
+function Button({ children, onClick, type, small, style }: { children: React.ReactNode, onClick?: () => void, type: ButtonType, small?: boolean, style?: string }) {
     const colors = {
         primary: "border-tint300 text-tint700 hover:bg-tint200 stroke-tint700",
         secondary: "bg-tint700 border-tint700 text-tint50 hover:bg-tint600  hover:text-tint50 stroke-tint50 hover:stroke-tint50",
@@ -13,7 +13,7 @@ function Button({ children, onClick, type, small }: { children: React.ReactNode,
         padding = "py-1"
     }
 
-    return <button className={"border-1 flex w-full " + colors[type] + " rounded-sm transition-colors ease-linear duration-100 "+padding} onClick={
+    return <button className={"border-1 flex w-full " + colors[type] + " rounded-sm transition-colors ease-linear duration-100 "+padding+" "+style} onClick={
         onClick
     }>
         <div className="flex flex-row w-full justify-center items-center">{children}</div>
