@@ -2,8 +2,8 @@ import { useContext, useEffect, useState } from "react";
 import Button, { IconButton } from "../Button";
 import Dialog from "./Dialog";
 import LinkIcon from "../../assets/icon/link";
-import { Field } from "../../views/Login";
 import { RoomContext, getLinkToRoom, sendInvitation } from "../../contexts/RoomContext";
+import MembersField from "../Fields/MembersField";
 
 export default function DialogInvitation({children}: {children: React.ReactNode}) {
     const [open, setOpen] = useState(false);
@@ -11,8 +11,6 @@ export default function DialogInvitation({children}: {children: React.ReactNode}
     const [email, setEmail] = useState("");
     const [link, setLink] = useState("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
     const {room} = useContext(RoomContext);
-
-
 
     const next = <Button type="secondary" onClick={() => {
         setOpen(false);
@@ -24,7 +22,6 @@ export default function DialogInvitation({children}: {children: React.ReactNode}
                 return;
             }
             getLinkToRoom(room.id).then((link) => {
-                console.log(link)
                 setLink(import.meta.env.VITE_CLIENT_ENDPOINT+"/join/"+link);
             })
         }
@@ -37,7 +34,7 @@ export default function DialogInvitation({children}: {children: React.ReactNode}
                 <p>Send an invitation by email</p>
                 <div className="flex flex-row justify-between items-center">
                     <span className="w-[75%]">
-                <Field placeholder="friend@gmail.com" type="email" value={email} onChange={setEmail} />
+                <MembersField member={email} setMember={setEmail} />
                 </span>
                 <span className="w-[24%]">
                 <Button type="primary" onClick={() => {
