@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { IconButton, WarningButton } from "../components/Button";
 import GoogleIcon from "../assets/icon/google";
-import { Field } from "./Login";
+import { Field } from "./../components/Field";
 import { AuthContext, loginRequest, registerRequest } from "../contexts/AuthContext";
 import { Link } from "react-router-dom";
 

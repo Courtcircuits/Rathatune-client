@@ -3,6 +3,7 @@ import GoogleIcon from "../assets/icon/google.tsx";
 import { useState } from "react";
 import { loginRequest } from "../contexts/AuthContext.tsx";
 import { Link, useNavigate } from "react-router-dom";
+import { Field } from "../components/Field";
 
 function Login() {
     const [email, setEmail] = useState<string>("");
@@ -82,17 +83,5 @@ function Login() {
     )
 }
 
-export function Field({ label, placeholder, type, value, onChange }: {
-    label?: string,
-    placeholder: string,
-    type: string,
-    value: string,
-    onChange: (value: string) => void
-}) {
-    return <div className="flex flex-col w-full py-2">
-        {label && <label className="text-tint500 pb-1">{label}</label>}
-        <input className="border-1 border-tint300 rounded-sm  px-3 py-1 bg-tint100 outline-none" placeholder={placeholder} type={type} value={value} onChange={(e) => onChange(e.target.value)}></input>
-    </div>
-}
 
 export default Login;

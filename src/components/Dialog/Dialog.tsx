@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { Field } from "../../views/Login";
+import { Field } from "../Field";
 import Button, { IconButton } from "../Button";
 import AddIcon from "../../assets/icon/plus-circle";
 import CrossIcon from "../../assets/icon/cross";

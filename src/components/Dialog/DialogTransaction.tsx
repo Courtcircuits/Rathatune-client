@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import Button from "../Button";
 import Dialog from "./Dialog";
-import { Field } from "../../views/Login";
+import { Field } from "../Field";
 import SelectButton, { SelectButtonSearch } from "../SelectButton";
 import { RoomContext } from "../../contexts/RoomContext";
 import { AuthContext } from "../../contexts/AuthContext";
@@ -35,7 +35,6 @@ export default function DialogCreateTransaction({
         id: string,
         name: string,
     }>(members[0] || { id: user.id, name: user.name });
-    console.log(members);
     const [amount, setAmount] = useState<string>("");
     const [description, setDescription] = useState("");
     const [type, setType] = useState<string>("Expense");
