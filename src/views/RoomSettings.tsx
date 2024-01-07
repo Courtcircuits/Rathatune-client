@@ -1,13 +1,14 @@
 import { useContext, useState } from "react";
 import { RoomContext } from "../contexts/RoomContext";
 import Button from "../components/Button";
-import { useMutateLeaveRoom, useMutateRoomName } from "../queries/room.mutations";
+import { useMutateDestroyRoom, useMutateLeaveRoom, useMutateRoomName } from "../queries/room.mutations";
 
 export default function RoomSettings() {
   const { room } = useContext(RoomContext);
   const [roomName, setRoomName] = useState(room != undefined ? room.name : "");
   const { mutate: mutateRoomName } = useMutateRoomName();
   const { mutate: mutateLeaveRoom } = useMutateLeaveRoom();
+  const { mutate: mutateDeleteRoom } = useMutateDestroyRoom();
 
   return (
     <div className="px-[10%] py-10">
@@ -26,7 +27,9 @@ export default function RoomSettings() {
               mutateLeaveRoom({ roomId: room.id });
             }}>
             </SettingCard>
-            <SettingCard action_label="Delete" type="warning" title="Delete this room" description="If you delete your room, you won't be able to make it come back." instruction="Farewell and goodbye." onSubmit={() => { }}>
+            <SettingCard action_label="Delete" type="warning" title="Delete this room" description="If you delete your room, you won't be able to make it come back." instruction="Farewell and goodbye." onSubmit={() => {
+              mutateDeleteRoom({ roomId: room.id });
+            }}>
             </SettingCard>
           </div></>) : (
           <p></p>
