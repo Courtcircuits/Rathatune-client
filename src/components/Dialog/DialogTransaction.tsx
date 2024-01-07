@@ -31,11 +31,13 @@ export default function DialogCreateTransaction({
 }) {
     const { room, updateRoom } = useContext(RoomContext);
     const { user } = useContext(AuthContext);
-    const members = room?.members?.filter((member) => member.id !== user.id) || [];
+    console.log(user.id)
+    console.log(room?.members)
+    const members = room?.members?.filter((member) => member.id !== user.id.toString()) || [];
     const [otherMember, setOtherMember] = useState<{
         id: string,
         name: string,
-    }>(members[0] || { id: user.id, name: user.name });
+    }>(members[0]);
     const [amount, setAmount] = useState<string>("");
     const [description, setDescription] = useState("");
     const [type, setType] = useState<string>("Expense");
