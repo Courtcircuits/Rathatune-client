@@ -1,12 +1,13 @@
 import { useContext, useState } from "react";
 import { RoomContext } from "../contexts/RoomContext";
 import Button from "../components/Button";
-import { useMutateRoomName } from "../queries/room.mutations";
+import { useMutateLeaveRoom, useMutateRoomName } from "../queries/room.mutations";
 
 export default function RoomSettings() {
   const { room } = useContext(RoomContext);
   const [roomName, setRoomName] = useState(room != undefined ? room.name : "");
-  const { mutate } = useMutateRoomName();
+  const { mutate: mutateRoomName } = useMutateRoomName();
+  const { mutate: mutateLeaveRoom } = useMutateLeaveRoom();
 
   return (
     <div className="px-[10%] py-10">
@@ -17,11 +18,13 @@ export default function RoomSettings() {
         room != undefined ? (<><p className="text-tint500 text-sm">Manage your room here.</p>
           <div className="py-5">
             <SettingCard action_label="update" title="Update the name of the room" description="Update the name of the room. This time pick a smarter name..." instruction="The name can't be more than 50 characters long. Otherwise, you won't remember it." onSubmit={() => {
-              mutate({ roomId: room.id, name: roomName });
+              mutateRoomName({ roomId: room.id, name: roomName });
               }}>
               <input className="w-full bg-tint0 border-1 border-tint400 rounded-sm px-4 py-2" type="text" placeholder="test" value={roomName} onChange={(e)=>{setRoomName(e.target.value)}}/>
             </SettingCard>
-            <SettingCard action_label="Leave" type="warning" title="Leave the room" description="Leave the room, it will delete all the transactions involving you." instruction="Tips : leave the country aswell and asap" onSubmit={() => { }}>
+            <SettingCard action_label="Leave" type="warning" title="Leave the room" description="Leave the room, it will delete all the transactions involving you." instruction="Tips : leave the country aswell and asap" onSubmit={() => {
+              mutateLeaveRoom({ roomId: room.id });
+            }}>
             </SettingCard>
             <SettingCard action_label="Delete" type="warning" title="Delete this room" description="If you delete your room, you won't be able to make it come back." instruction="Farewell and goodbye." onSubmit={() => { }}>
             </SettingCard>

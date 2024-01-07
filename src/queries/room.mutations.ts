@@ -27,6 +27,17 @@ const fetchUpdateRoomName = async ({ roomId, name }: { roomId: string, name: str
   return data;
 }
 
+const fetchLeaveRoom = async ({ roomId }: { roomId: string }): Promise<{
+  message: string
+}> => {
+  const response = await fetch(import.meta.env.VITE_API_ENDPOINT + "/room/" + roomId + "/leave", {
+    method: "POST",
+    credentials: "include",
+  });
+  const data = await response.json();
+  return data;
+}
+
 export const useMutateRoomName = () => {
   const { updateRoom } = useContext(RoomContext);
   const { trigger_success, trigger_alert } = useContext(ToasterContext);
@@ -39,5 +50,20 @@ export const useMutateRoomName = () => {
       trigger_alert(error.message);
     },
     mutationFn: fetchUpdateRoomName,
+  });
+}
+
+export const useMutateLeaveRoom = () => {
+  const { updateRoom } = useContext(RoomContext);
+  const { trigger_success, trigger_alert } = useContext(ToasterContext);
+  return useMutation({
+    onSuccess: () => {
+      updateRoom("");
+      trigger_success("Room left !");
+    },
+    onError: (error: any) => {
+      trigger_alert(error.message);
+    },
+    mutationFn: fetchLeaveRoom,
   });
 }
