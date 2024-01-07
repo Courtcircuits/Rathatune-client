@@ -1,10 +1,9 @@
 import { IconButton, WarningButton } from "../components/Button";
 import GoogleIcon from "../assets/icon/google.tsx";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { loginRequest } from "../contexts/AuthContext.tsx";
 import { Link, useNavigate } from "react-router-dom";
 import { Field } from "../components/Field";
-import { ToasterContext } from "../contexts/ToastContext.tsx";
 
 function Login() {
     const [email, setEmail] = useState<string>("");
