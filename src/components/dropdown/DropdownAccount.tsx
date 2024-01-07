@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import Check from "../../assets/icon/check";
 import CrossIcon from "../../assets/icon/cross";
 import LogOutIcon from "../../assets/icon/log-out";
@@ -7,6 +7,7 @@ import { IconButton } from "../Button";
 import { DropdownMenu, SectionSeparator } from "./Dropdown";
 import { AuthContext, default_auth, logoutRequest } from "../../contexts/AuthContext";
 import { Link } from "react-router-dom";
+import { useUserInvitations } from "../../queries/user.queries";
 
 interface Invitation {
   room: string;
@@ -16,21 +17,7 @@ interface Invitation {
 
 export default function DropdownAccount() {
   const { user: auth, setUser: setAuth } = useContext(AuthContext);
-  const [invitations, setInvitations] = useState<Invitation[]>([]);
-  useEffect(() => {
-    fetch(import.meta.env.VITE_API_ENDPOINT + "/invite/get", {
-      method: "GET",
-      credentials: "include",
-    }).then((data) => {
-      if (data.status === 400 || data.status === 401) {
-        throw new Error("Room not found");
-      } else {
-        return data.json();
-      }
-    }).then((data) => {
-      setInvitations(data);
-    })
-  }, [])
+  const {data, refetch} = useUserInvitations();
   return (
     <DropdownMenu>
       <p className="text-tint600 mx-5 text-sm">{auth.name}</p>
@@ -47,8 +34,8 @@ export default function DropdownAccount() {
         <SectionSeparator />
         <p className="text-tint600 text-sm">Invitations</p>
         {
-          invitations.length === 0 ? <p className="text-tint500 text-sm">No invitations</p> :
-            invitations.map((invitation, index) => <Invitation key={index} from={invitation.sender} room={invitation.room} uid={invitation.invite_code} />)
+          data?.length === 0 ? <p className="text-tint500 text-sm">No invitations</p> :
+            data?.map((invitation, index) => <Invitation key={index} from={invitation.sender} room={invitation.room} uid={invitation.invite_code} refetch={refetch} />)
         }
       </div>
     </DropdownMenu>
@@ -81,7 +68,7 @@ interface InvitationResponseData {
   invite_code: string;
 }
 
-function Invitation({ from, room, uid }: { from: string, room: string, uid: string }) {
+function Invitation({ from, room, uid, refetch }: { from: string, room: string, uid: string, refetch: () => void }) {
   return (
     <div className="flex flex-row py-5 border-b-1 border-b-tint300 last:border-b-0">
       <p className="w-3/4"><b>{from}</b> invited you to <b>{room}</b></p>
@@ -98,7 +85,6 @@ function Invitation({ from, room, uid }: { from: string, room: string, uid: stri
               return data.json();
             }).then((data: InvitationResponseData) => {
               console.log(data);
-              location.href = import.meta.env.VITE_CLIENT_ENDPOINT + "/dashboard/" + data.room_id;
             })
           }} text="" type="accept" icon={<Check height={20} width={20} />} />
         </div>
@@ -111,6 +97,7 @@ function Invitation({ from, room, uid }: { from: string, room: string, uid: stri
               if (data.status === 400 || data.status === 401) {
                 throw new Error("Room not found");
               }
+              refetch();
             })
           }} text="" type="warning" icon={<CrossIcon height={20} width={20} />} />
         </div>
