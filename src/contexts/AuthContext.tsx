@@ -1,5 +1,6 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { ToasterContext } from "./ToastContext";
 
 export const default_auth: User = {
   id: "",
@@ -101,10 +102,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User>(default_auth);
   const navigate = useNavigate();
   const location = useLocation();
+  const { trigger_success, trigger_alert } = useContext(ToasterContext);
 
   useEffect(() => {
     getInfosAboutMe().then((data) => {
-      if (data.id === user.id) return;
+      if (data.id === user.id) {
+        trigger_success("Logged in");
+        return;
+      }
       setUser(() => {
         return {
           id: data.id,
@@ -117,6 +122,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       )
     }).catch(() => {
       if (location.pathname === "/login" || location.pathname === "/register") return;
+      trigger_alert("You are not logged in");
       navigate("/login");
     })
   }, [user]);

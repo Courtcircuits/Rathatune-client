@@ -5,6 +5,7 @@ import { Field } from "../Field";
 import SelectButton, { SelectButtonSearch } from "../SelectButton";
 import { RoomContext } from "../../contexts/RoomContext";
 import { AuthContext } from "../../contexts/AuthContext";
+import { ToasterContext } from "../../contexts/ToastContext";
 
 export async function createTransaction(room_id: string, description: string, amount: number, type: string, other_member: string) {
     const formData = new FormData();
@@ -40,6 +41,7 @@ export default function DialogCreateTransaction({
     const [type, setType] = useState<string>("Expense");
     const [error, setError] = useState("");
     const [open, setOpen] = useState(false);
+    const { trigger_success } = useContext(ToasterContext);
 
 
     function checkIfValid(): string | boolean {
@@ -73,6 +75,7 @@ export default function DialogCreateTransaction({
                 setError("");
                 setOpen(false);
                 updateRoom(room?.id as string);
+                trigger_success("Transaction created !");
             })
         } else {
             setError(valid as string);
