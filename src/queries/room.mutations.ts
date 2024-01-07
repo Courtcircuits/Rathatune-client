@@ -38,6 +38,18 @@ const fetchLeaveRoom = async ({ roomId }: { roomId: string }): Promise<{
   return data;
 }
 
+const fetchDestroyRoom = async ({ roomId }: { roomId: string }): Promise<{
+  message: string
+}> => {
+  const response = await fetch(import.meta.env.VITE_API_ENDPOINT + "/room/" + roomId + "/destroy", {
+    method: "POST",
+    credentials: "include",
+  });
+  const data = await response.json();
+  return data;
+}
+
+
 export const useMutateRoomName = () => {
   const { updateRoom } = useContext(RoomContext);
   const { trigger_success, trigger_alert } = useContext(ToasterContext);
@@ -65,5 +77,20 @@ export const useMutateLeaveRoom = () => {
       trigger_alert(error.message);
     },
     mutationFn: fetchLeaveRoom,
+  });
+}
+
+export const useMutateDestroyRoom = () => {
+  const { updateRoom } = useContext(RoomContext);
+  const { trigger_success, trigger_alert } = useContext(ToasterContext);
+  return useMutation({
+    onSuccess: () => {
+      updateRoom("");
+      trigger_success("Room destroyed !");
+    },
+    onError: (error: any) => {
+      trigger_alert(error.message);
+    },
+    mutationFn: fetchDestroyRoom,
   });
 }
