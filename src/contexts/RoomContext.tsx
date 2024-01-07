@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { ITransaction } from "../components/Transaction";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export interface Room {
   name: string;
@@ -32,7 +32,7 @@ export async function getRoom(id: string): Promise<Room> {
     credentials: "include",
   }
   );
-  if (data.status === 400 || data.status === 401) {
+  if (data.status === 400 || data.status === 401 || data.status === 404) {
     throw new Error("Room not found");
   }
   return (await data.json())
@@ -106,9 +106,11 @@ export const RoomContext = createContext<{
 export function RoomProvider({ children }: { children: React.ReactNode }) {
   const [room, setRoom] = useState<Room | undefined>(rooms[0]);
   const params = useParams();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [_, setRoomId] = useState<string>("1");
 
+  // update room from id
   const updateRoom = (room_id: string) => {
     setIsLoading(true);
     getRoom(room_id || "").then((data) => {
@@ -116,6 +118,7 @@ export function RoomProvider({ children }: { children: React.ReactNode }) {
       setRoom(data);
     }).catch((e) => {
       console.log(e);
+      navigate("/dashboard");
       setRoom(undefined);
     })
   }
