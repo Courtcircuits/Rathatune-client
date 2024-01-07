@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { Field } from "../Field";
 import Button, { IconButton } from "../Button";
 import AddIcon from "../../assets/icon/plus-circle";
@@ -6,6 +6,7 @@ import CrossIcon from "../../assets/icon/cross";
 import { useNavigate } from "react-router-dom";
 import { createGroup } from "../../contexts/RoomContext";
 import MembersField from "../Fields/MembersField";
+import { ToasterContext } from "../../contexts/ToastContext";
 
 export default function Dialog({
   title,
@@ -133,6 +134,7 @@ export function DialogCreateGroup({
   const [groupMembers, setGroupMembers] = React.useState<string[]>([""]);
   const [open, setOpen] = React.useState(false);
   const [error, setError] = React.useState("");
+  const { trigger_success } = useContext(ToasterContext);
   const navigate = useNavigate();
 
   function checkIfValid(): string | boolean {
@@ -160,6 +162,7 @@ export function DialogCreateGroup({
     if (valid === true) {
       createGroup(groupName).then((id) => {
         navigate("/dashboard/" + id);
+        trigger_success("Group created !");
       })
       setError("");
       setOpen(false);

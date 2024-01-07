@@ -4,6 +4,7 @@ import Dialog from "./Dialog";
 import LinkIcon from "../../assets/icon/link";
 import { RoomContext, getLinkToRoom, sendInvitation } from "../../contexts/RoomContext";
 import MembersField from "../Fields/MembersField";
+import { ToasterContext } from "../../contexts/ToastContext";
 
 export default function DialogInvitation({children}: {children: React.ReactNode}) {
     const [open, setOpen] = useState(false);
@@ -11,6 +12,7 @@ export default function DialogInvitation({children}: {children: React.ReactNode}
     const [email, setEmail] = useState("");
     const [link, setLink] = useState("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
     const {room} = useContext(RoomContext);
+    const {trigger_notify} = useContext(ToasterContext);
 
     const next = <Button type="secondary" onClick={() => {
         setOpen(false);
@@ -42,6 +44,7 @@ export default function DialogInvitation({children}: {children: React.ReactNode}
                     sendInvitation(email, room.id).then(() => {
                         setEmail("");
                     })
+                    trigger_notify("Invitation sent !");
                 }}>Send</Button>
                 </span>
                 </div>

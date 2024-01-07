@@ -10,6 +10,7 @@ import Register from "./views/Register"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import Share from "./views/Share"
 import HomeDashboard from "./views/HomeDashboard"
+import { ToastProvider } from "./contexts/ToastContext"
 
 const router = createBrowserRouter([
   {
@@ -30,7 +31,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <AuthProvider><HomeDashboard/></AuthProvider>,
+    element: <AuthProvider><HomeDashboard /></AuthProvider>,
   },
   {
     path: "/dashboard/:id",
@@ -60,9 +61,11 @@ const queryClient = new QueryClient()
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
+    <ToastProvider>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+    </ToastProvider>
   )
 }
 

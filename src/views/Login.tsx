@@ -1,9 +1,10 @@
 import { IconButton, WarningButton } from "../components/Button";
 import GoogleIcon from "../assets/icon/google.tsx";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { loginRequest } from "../contexts/AuthContext.tsx";
 import { Link, useNavigate } from "react-router-dom";
 import { Field } from "../components/Field";
+import { ToasterContext } from "../contexts/ToastContext.tsx";
 
 function Login() {
     const [email, setEmail] = useState<string>("");
@@ -11,6 +12,7 @@ function Login() {
     const [password, setPassword] = useState<string>("");
 
     const navigate = useNavigate();
+
 
     function validePassword(password: string): boolean {
         return password.length >= 8;
@@ -26,7 +28,7 @@ function Login() {
             try {
                 await loginRequest(email, password);
                 try {
-                    navigate("/dashboard")
+                    navigate("/dashboard");
                 } catch (e) {
                     console.log(e);
                     errors.push("An error occured. Please try again later.");
