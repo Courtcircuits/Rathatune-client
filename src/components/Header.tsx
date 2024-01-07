@@ -9,6 +9,7 @@ import AddIconPlus from '../assets/icon/plus';
 import { AuthContext } from '../contexts/AuthContext';
 import { RoomContext } from '../contexts/RoomContext';
 import { Link } from 'react-router-dom';
+import { useUserInvitations } from '../queries/user.queries';
 
 function Header() {
   const headerRef = React.useRef<HTMLHeadElement>(null);
@@ -58,9 +59,7 @@ function Header() {
         <div className='mr-4'>
           <DialogCreateGroup>
             <div className="flex items-center w-full group hover:cursor-pointer hover:bg-tint200 py-1 rounded-sm transition-colors ease-linear duration-100 border-2 border-tint400">
-              {/* <p className="mr-3 text-lg">Create a new group</p> */}
               <div className="transition-colors ease-linear duration-100 stroke-tint500">
-                {/* <AddIcon width={25} height={20} /> */}
                 <AddIconPlus width={30} height={25} />
               </div>
             </div>
@@ -118,11 +117,19 @@ function RoomSelector({ rooms, selected }: { rooms: Room[], selected: string | u
 }
 
 function ProfilePicture({ url }: { url: string }) {
+  const {data} = useUserInvitations();
+  if (data?.length === 0 || data === undefined) {
+    return (
+      <div className='flex justify-end items-end'>
+        <img className="w-11 h-11 rounded-full " src={url} alt="Profile picture" />
+      </div>
+    )
+  }
   return (
     <div className='flex justify-end items-end'>
       <img className="w-11 h-11 rounded-full " src={url} alt="Profile picture" />
-      <p className="content-['7'] text-tint50 -translate-x-5 translate-y-1 w-fit px-2 bg-warn rounded-sm text-sm">
-        3
+      <p className="absolute content-['7'] text-tint50 translate-x-1 translate-y-1 w-fit px-2 bg-warn rounded-sm text-sm">
+        {data?.length}
       </p>
     </div>
   )
