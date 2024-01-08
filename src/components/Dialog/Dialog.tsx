@@ -4,7 +4,7 @@ import Button, { IconButton } from "../Button";
 import AddIcon from "../../assets/icon/plus-circle";
 import CrossIcon from "../../assets/icon/cross";
 import { useNavigate } from "react-router-dom";
-import { createGroup } from "../../contexts/RoomContext";
+import { createGroup, sendInvitation } from "../../contexts/RoomContext";
 import MembersField from "../Fields/MembersField";
 import { ToasterContext } from "../../contexts/ToastContext";
 
@@ -161,6 +161,9 @@ export function DialogCreateGroup({
     const valid = checkIfValid();
     if (valid === true) {
       createGroup(groupName).then((id) => {
+        for (const member of groupMembers) {
+          sendInvitation(member, id);
+        }
         navigate("/dashboard/" + id);
         trigger_success("Group created !");
       })

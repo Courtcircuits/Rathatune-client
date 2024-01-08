@@ -84,7 +84,6 @@ export function SelectButtonSearch({
                 setOpen(false)
               }
             } key={i} className="px-3 w-[95%] py-2 rounded-sm flex justify-between items-center stroke-tint500 hover:bg-tint200">
-
               <p>{option?.name
               }</p>
               {
