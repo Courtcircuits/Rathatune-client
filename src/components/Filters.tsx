@@ -17,7 +17,7 @@ function Filters() {
 
     useEffect(() => {
         const index = filters.findIndex((filter) => filter.toLowerCase() == location.pathname.split("/")[3]);
-        document.title = `${room?.name} - ${filters[index]} - Ratathune`
+        document.title = `${room?.name} - ${filters[index] == undefined ? 'Transactions' : filters[index] } - Ratathune`
     }, [selected, room, params])
     return (
         <div className="border-b-1 border-tint400 px-5">
