@@ -4,12 +4,16 @@ import RoomLayout from "../components/RoomLayout";
 import Debt from "../components/Debt";
 
 export default function Leaderboard(){
-    const {room} = useContext(RoomContext);
+    const {room, isLoading} = useContext(RoomContext);
     if(!room){
         return <div></div>
     }
+    if (isLoading) {
+        return <div></div>
+    }
     const debts = computeDebts(room);
-    const amplitude = debts[0].amount - debts[debts.length-1].amount;
+
+    const amplitude = debts.length===0 ? 0 : debts[0].amount - debts[debts.length-1].amount;
     return (
         <RoomLayout subtitle="How much do you owe to your friends ?">
             <ol className="my-7">

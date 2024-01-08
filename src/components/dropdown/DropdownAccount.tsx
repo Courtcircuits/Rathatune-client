@@ -17,7 +17,7 @@ interface Invitation {
 
 export default function DropdownAccount() {
   const { user: auth, setUser: setAuth } = useContext(AuthContext);
-  const {data, refetch} = useUserInvitations();
+  const { data, refetch } = useUserInvitations();
   return (
     <DropdownMenu>
       <p className="text-tint600 mx-5 text-sm">{auth.name}</p>
@@ -83,8 +83,6 @@ function Invitation({ from, room, uid, refetch }: { from: string, room: string, 
                 throw new Error("Room not found");
               }
               return data.json();
-            }).then((data: InvitationResponseData) => {
-              console.log(data);
             })
           }} text="" type="accept" icon={<Check height={20} width={20} />} />
         </div>

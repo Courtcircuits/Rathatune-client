@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Link, useLocation} from "react-router-dom";
+import { Link, useLocation, useParams} from "react-router-dom";
 import { RoomContext } from "../contexts/RoomContext";
 
 function Filters() {
@@ -7,12 +7,18 @@ function Filters() {
     const filters = ["Transactions", "Leaderboard", "Settings"]
     const location = useLocation();
     const {room} = useContext(RoomContext);
+    const params = useParams();
     useEffect(() => {
-        const index = filters.findIndex((filter) => filter.toLowerCase() == location.pathname.split("/")[2]);
+        const index = filters.findIndex((filter) => filter.toLowerCase() == location.pathname.split("/")[3]);
         if (index != -1) {
             setSelected(index);
         }
-    }, [location])
+    }, [params])
+
+    useEffect(() => {
+        const index = filters.findIndex((filter) => filter.toLowerCase() == location.pathname.split("/")[3]);
+        document.title = `${room?.name} - ${filters[index]} - Ratathune`
+    }, [selected, room, params])
     return (
         <div className="border-b-1 border-tint400 px-5">
             {

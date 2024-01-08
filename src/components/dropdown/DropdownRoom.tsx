@@ -14,7 +14,7 @@ function DropdownRoomSelector({ projects, selected }: { projects: { name: string
         {
           projects.map((project, index) => <ProjectSelector key={index} project={project} selected={project.id === selected} />).filter((project) => project.props.project.name.toLowerCase().includes(search.toLowerCase()) || search === "")
         }
-       
+
       </div>
     </DropdownMenu>
   )
@@ -22,7 +22,7 @@ function DropdownRoomSelector({ projects, selected }: { projects: { name: string
 
 
 function ProjectSelector({ project, selected }: { project: { name: string, id: string }, selected: boolean }) {
-  return (<Link to={"/dashboard/"+ project.id } className='flex items-center justify-between group hover:cursor-pointer hover:bg-tint200 py-2 px-1 rounded-sm transition-colors ease-linear duration-100'>
+  return (<Link to={"/dashboard/" + project.id} className='flex items-center justify-between group hover:cursor-pointer hover:bg-tint200 py-2 px-1 rounded-sm transition-colors ease-linear duration-100'>
     <p className='mr-5 text-lg'>{
       project?.name
     }</p>

@@ -11,7 +11,8 @@ function Login() {
     const [password, setPassword] = useState<string>("");
 
     const navigate = useNavigate();
-
+    
+    document.title = "Ratathune - Login";
 
     function validePassword(password: string): boolean {
         return password.length >= 8;
@@ -29,7 +30,6 @@ function Login() {
                 try {
                     navigate("/dashboard");
                 } catch (e) {
-                    console.log(e);
                     errors.push("An error occured. Please try again later.");
                     setErrorMessages(errors);
                 }

@@ -62,7 +62,6 @@ export function SelectButtonSearch({
 }) {
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState("")
-  console.log(value)
   return (
     <div className="relative">
       <Button type="primary" onClick={() => setOpen(open => !open)}>

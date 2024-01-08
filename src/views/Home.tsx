@@ -15,6 +15,8 @@ function Home() {
     "Tes colocataires",
   ]);
 
+  document.title = "Ratathune - Home";
+
   const animation_duration = 5;
 
   useEffect(() => {

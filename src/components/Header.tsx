@@ -118,6 +118,9 @@ function RoomSelector({ rooms, selected }: { rooms: Room[], selected: string | u
 
 function ProfilePicture({ url }: { url: string }) {
   const {data} = useUserInvitations();
+  const {user} = useContext(AuthContext);
+
+  url = user.profile_picture || url;
   if (data?.length === 0 || data === undefined) {
     return (
       <div className='flex justify-end items-end'>

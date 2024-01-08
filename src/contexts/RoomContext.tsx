@@ -8,7 +8,7 @@ export interface Room {
   members: {
     name: string,
     id: string,
-  
+    profile_picture: string,
   }[];
   transactions: ITransaction[];
 }
@@ -26,7 +26,6 @@ export async function getLinkToRoom(room_id: string): Promise<string> {
 }
 
 export async function getRoom(id: string): Promise<Room> {
-  console.log("GETTING ROOM : " + id)
   const data = await fetch(import.meta.env.VITE_API_ENDPOINT + "/room/" + id, {
     method: "GET",
     credentials: "include",
@@ -124,6 +123,7 @@ export function RoomProvider({ children }: { children: React.ReactNode }) {
   }
 
   useEffect(() => {
+    console.log(params);
     if (params.id === undefined) return;
     updateRoom(params.id);
   }, [params])

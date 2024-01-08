@@ -31,6 +31,8 @@ export default function HomeDashboard() {
   const [rooms, setRooms] = useState<Room[]>(rooms_mock);
   const { data } = useRoomSummary();
 
+  document.title = "Dashboard - Ratathune";
+
   useEffect(() => {
     if (data) {
       console.log(data);
@@ -93,9 +95,6 @@ function RoomCard({ name, id, members, sold }: Room) {
       <div className="flex flex-row w-full justify-between items-center">
         <h2 className="font-bold text-xl">{name}</h2>
         <div className="flex flex-row-reverse items-center">
-          <div className={`flex justify-center items-center ml-[-10px] border-tint600 border-1 rounded-full w-11 h-11`}>
-            <p>{members.length}</p>
-          </div>
           {members.slice(0, 3).map((member, index) => {
             return (
               <div key={index} className={`flex justify-end items-end ml-[-10px]`}>

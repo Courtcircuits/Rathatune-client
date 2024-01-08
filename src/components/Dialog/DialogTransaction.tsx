@@ -32,7 +32,6 @@ export default function DialogCreateTransaction({
     const { room, updateRoom } = useContext(RoomContext);
     const { user } = useContext(AuthContext);
     const members = room?.members?.filter((member) => member.id !== user.id.toString()) || [];
-    console.log(members)
     const [otherMember, setOtherMember] = useState<{
         id: string,
         name: string,

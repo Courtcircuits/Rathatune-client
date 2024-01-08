@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react"
+import { useContext } from "react"
 import DollarIcon from "../assets/icon/dollar"
 import Transaction from "../components/Transaction"
 import { RoomContext } from "../contexts/RoomContext"
@@ -6,11 +6,6 @@ import RoomLayout from "../components/RoomLayout"
 
 export default function Transactions() {
   const { room } = useContext(RoomContext);
-  useEffect(() => {
-    if (room == undefined) {
-      console.log("OOKKKK")
-    }
-  }, [room])
 
   const noTransactions = (
     <div className="flex flex-col items-center justify-center">
