@@ -56,13 +56,14 @@ export default function HomeDashboard() {
       <div className="pt-[90px] px-[10%] w-full">
         <section className="text-center py-10">
           <h2 className="font-bold text-xl">{
+            sold === 0 ? `You have no debt` :
             sold > 0 ? `You are owed in total` : `You owe in total`
           }</h2>
           <h1 className="font-bold text-warn text-4xl py-3">{
-            sold > 0 ? `$${sold}` : `$${-sold}`
+            sold >= 0 ? `$${sold}` : `$${-sold}`
           }</h1>
           <h2 className="font-bold text-xl">{
-            sold > 0 ? `gg... you're not a rat` : `gg... you're a rat`
+            sold >= 0 ? `gg... you're not a rat` : `gg... you're a rat`
           }</h2>
         </section>
         <section className="px-[10%] w-full flex-col flex items-center justify-center">
