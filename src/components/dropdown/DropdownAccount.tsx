@@ -57,16 +57,6 @@ function SectionSelector({ section_name, icon, danger, onClick }: { section_name
   )
 }
 
-interface InvitationResponseData {
-  id: string;
-  room_id: string;
-  sender_id: string;
-  receiver_id: string;
-  status: string;
-  created_at: string;
-  updated_at: string;
-  invite_code: string;
-}
 
 function Invitation({ from, room, uid, refetch }: { from: string, room: string, uid: string, refetch: () => void }) {
   return (

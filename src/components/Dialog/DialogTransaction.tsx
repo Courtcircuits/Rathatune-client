@@ -35,6 +35,7 @@ export default function DialogCreateTransaction({
     const [otherMember, setOtherMember] = useState<{
         id: string,
         name: string,
+        profile_picture: string
     }>(members[0]);
     const [amount, setAmount] = useState<string>("");
     const [description, setDescription] = useState("");

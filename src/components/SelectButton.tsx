@@ -49,15 +49,18 @@ export function SelectButtonSearch({
 }: {
   options: {
     name: string,
-    id: string
+    id: string,
+    profile_picture: string
   }[],
   setValue: (value: {
     name: string,
-    id: string
+    id: string,
+    profile_picture: string
   }) => void,
   value: {
     name: string,
-    id: string
+    id: string,
+    profile_picture: string
   }
 }) {
   const [open, setOpen] = useState(false)
