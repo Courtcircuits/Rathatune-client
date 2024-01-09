@@ -22,6 +22,10 @@ const fetchUpdateProfilePicture = async ({profile_picture}: {profile_picture:Fil
     body: formData,
     credentials: 'include',
   })
+  if (!response.ok) {
+    const data = await response.json();
+    throw new Error(data.message);
+  }
   const data = await response.json();
   return data;
 }
