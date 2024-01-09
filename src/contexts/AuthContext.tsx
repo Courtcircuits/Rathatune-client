@@ -95,21 +95,18 @@ export interface User {
 
 export const AuthContext = createContext<{
   user: User;
-  setUser: (auth: User) => void;
-}>({ user: default_auth, setUser: () => { } });
+  updateUser: () => void;
+}>({ user: default_auth, updateUser: () => { } });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User>(default_auth);
   const navigate = useNavigate();
   const location = useLocation();
-  const { trigger_success, trigger_alert } = useContext(ToasterContext);
+  const { trigger_alert } = useContext(ToasterContext);
 
-  useEffect(() => {
+  const updateUser = () => {
     getInfosAboutMe().then((data) => {
-      if (data.id === user.id) {
-        trigger_success("Logged in");
-        return;
-      }
+      console.log(data.id);
       setUser(() => {
         return {
           id: data.id,
@@ -125,10 +122,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       trigger_alert("You are not logged in");
       navigate("/login");
     })
-  }, [user]);
+  }
+
+  useEffect(() => {
+    updateUser();
+  }, []);
 
   return (
-    <AuthContext.Provider value={{ user: user, setUser: setUser }}>
+    <AuthContext.Provider value={{ user: user, updateUser: updateUser }}>
       {children}
     </AuthContext.Provider>
   );

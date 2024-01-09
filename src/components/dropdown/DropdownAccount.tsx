@@ -5,7 +5,7 @@ import LogOutIcon from "../../assets/icon/log-out";
 import SettingsIcon from "../../assets/icon/settings";
 import { IconButton } from "../Button";
 import { DropdownMenu, SectionSeparator } from "./Dropdown";
-import { AuthContext, default_auth, logoutRequest } from "../../contexts/AuthContext";
+import { AuthContext, logoutRequest } from "../../contexts/AuthContext";
 import { Link } from "react-router-dom";
 import { useUserInvitations } from "../../queries/user.queries";
 
@@ -16,7 +16,7 @@ interface Invitation {
 }
 
 export default function DropdownAccount() {
-  const { user: auth, setUser: setAuth } = useContext(AuthContext);
+  const { user: auth , updateUser} = useContext(AuthContext);
   const { data, refetch } = useUserInvitations();
   return (
     <DropdownMenu>
@@ -24,10 +24,12 @@ export default function DropdownAccount() {
       <Link to="/dashboard">
         <SectionSelector section_name="Dashboard" icon={<></>} />
       </Link>
-      <SectionSelector section_name="Settings" icon={<SettingsIcon width={20} height={20} />} />
+      <Link to="/settings">
+        <SectionSelector section_name="Settings" icon={<SettingsIcon width={20} height={20} />} />
+      </Link>
       <SectionSelector section_name="Log out" danger icon={<LogOutIcon width={20} height={20} />} onClick={() => {
         logoutRequest().then(() => {
-          setAuth(default_auth);
+          updateUser();
         })
       }} />
       <div className="mx-5">

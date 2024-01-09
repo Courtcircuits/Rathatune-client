@@ -20,8 +20,8 @@ export default function RoomSettings() {
           <div className="py-5">
             <SettingCard action_label="update" title="Update the name of the room" description="Update the name of the room. This time pick a smarter name..." instruction="The name can't be more than 50 characters long. Otherwise, you won't remember it." onSubmit={() => {
               mutateRoomName({ roomId: room.id, name: roomName });
-              }}>
-              <input className="w-full bg-tint0 border-1 border-tint400 rounded-sm px-4 py-2" type="text" placeholder="test" value={roomName} onChange={(e)=>{setRoomName(e.target.value)}}/>
+            }}>
+              <input className="w-full bg-tint0 border-1 border-tint400 rounded-sm px-4 py-2" type="text" placeholder="Your room name" value={roomName} onChange={(e) => { setRoomName(e.target.value) }} />
             </SettingCard>
             <SettingCard action_label="Leave" type="warning" title="Leave the room" description="Leave the room, it will delete all the transactions involving you." instruction="Tips : leave the country aswell and asap" onSubmit={() => {
               mutateLeaveRoom({ roomId: room.id });
@@ -39,13 +39,14 @@ export default function RoomSettings() {
   )
 }
 
-function SettingCard({
+export function SettingCard({
   title,
   description,
   children,
   instruction,
   type,
   action_label,
+  onSide,
   onSubmit = () => { }
 }:
   {
@@ -55,6 +56,7 @@ function SettingCard({
     children: React.ReactNode,
     instruction: string,
     type?: "warning" | "normal",
+    onSide?: boolean,
     onSubmit: () => void
   }) {
   let bg_color = "bg-tint100 ";
@@ -66,11 +68,29 @@ function SettingCard({
   return (
     <div className="py-5">
       <div className={"w-full border-1 rounded-tl-sm rounded-tr-sm px-4 py-5 " + bg_color + border_color}>
-        <h2 className="text-2xl font-primary font-medium my-1">{title}</h2>
-        <p className="text-tint500 text-sm font-light">{description}</p>
-        <div className="mt-4">
-          {children}
-        </div>
+        {
+          onSide ? (
+            <div className="flex flex-row items-center justify-between">
+              <div className="w-1/2">
+                <h2 className="text-2xl font-primary font-medium my-1">{title}</h2>
+                <p className="text-tint500 text-sm font-light">{description}</p>
+              </div>
+              <div className="w-1/2">
+                {children}
+              </div>
+            </div>
+          ) :
+            (
+              <>
+                <h2 className="text-2xl font-primary font-medium my-1">{title}</h2>
+                <p className="text-tint500 text-sm font-light">{description}</p>
+                <div className="mt-4">
+                  {children}
+                </div>
+              </>
+            )
+        }
+
       </div>
       <div className={"w-full rounded-bl-sm rounded-br-sm bg-0 py-5 px-4 flex flex-row items-center border-l-1 border-r-1 border-b-1 " + border_color}>
         <p className="font-light text-sm w-2/3">{instruction}</p>

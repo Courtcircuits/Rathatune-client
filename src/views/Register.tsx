@@ -11,8 +11,8 @@ function Register() {
   const [name, setName] = useState("");
   const [errorMessages, setErrorMessages] = useState<string[]>([]); // ["Email is required", "Email is invalid"
   const [password, setPassword] = useState("");
-  const { setUser: setAuth } = useContext(AuthContext);
   const navigate = useNavigate();
+  const { updateUser } = useContext(AuthContext);
 
   document.title = "Ratathune - Register";
 
@@ -39,13 +39,7 @@ function Register() {
           setErrorMessages(errors);
           return;
         }
-        setAuth({
-          email: email,
-          profile_picture: "",
-          name: name,
-          rooms: [],
-          id: user_id
-        })
+        updateUser();
         navigate("/dashboard");
       } catch (e) {
         console.log(e);

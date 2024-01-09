@@ -11,6 +11,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import Share from "./views/Share"
 import HomeDashboard from "./views/HomeDashboard"
 import { ToastProvider } from "./contexts/ToastContext"
+import UserSettings from "./views/UserSettings"
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <AuthProvider><HomeDashboard /></AuthProvider>,
+  },
+  {
+    path: "/settings",
+    element: <AuthProvider><UserSettings /></AuthProvider>,
   },
   {
     path: "/dashboard/:id",
