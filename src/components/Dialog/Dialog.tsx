@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { createGroup, sendInvitation } from "../../contexts/RoomContext";
 import MembersField from "../Fields/MembersField";
 import { ToasterContext } from "../../contexts/ToastContext";
+import { AuthContext } from "../../contexts/AuthContext";
 
 export default function Dialog({
   title,
@@ -135,6 +136,7 @@ export function DialogCreateGroup({
   const [open, setOpen] = React.useState(false);
   const [error, setError] = React.useState("");
   const { trigger_success } = useContext(ToasterContext);
+  const { updateUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
   function checkIfValid(): string | boolean {
@@ -165,6 +167,7 @@ export function DialogCreateGroup({
           sendInvitation(member, id);
         }
         navigate("/dashboard/" + id);
+        updateUser();
         trigger_success("Group created !");
       })
       setError("");

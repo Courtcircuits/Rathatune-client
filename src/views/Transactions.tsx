@@ -3,9 +3,11 @@ import DollarIcon from "../assets/icon/dollar"
 import Transaction from "../components/Transaction"
 import { RoomContext } from "../contexts/RoomContext"
 import RoomLayout from "../components/RoomLayout"
+import { AuthContext } from "../contexts/AuthContext"
 
 export default function Transactions() {
   const { room } = useContext(RoomContext);
+  const { user } = useContext(AuthContext);
 
   const noTransactions = (
     <div className="flex flex-col items-center justify-center">
@@ -14,6 +16,8 @@ export default function Transactions() {
       <p className="text-tint500 text-sm">Create one by clicking on the button below.</p>
     </div>
   )
+
+  console.log(room?.transactions)
 
   return (
     <RoomLayout subtitle="Historic of all transactions involving you.">
@@ -25,7 +29,7 @@ export default function Transactions() {
           ):
           room.transactions.length === 0 ? (
             noTransactions
-          ) : room.transactions.map((transaction, index) => <Transaction key={index} transaction={transaction} />)
+          ) : room.transactions.filter((transaction)=> transaction.sender != user.name || transaction.receiver != user.name ).map((transaction, index) => <Transaction key={index} transaction={transaction} />)
             : (
               <p></p>
             )
