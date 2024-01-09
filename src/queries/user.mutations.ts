@@ -12,6 +12,20 @@ interface UserQueried {
   rooms: Room[];
 }
 
+const fetchUpdateProfilePicture = async ({profile_picture}: {profile_picture:File}): Promise<{
+  message: string;
+}> => {
+  const formData = new FormData();
+  formData.append('profile_picture', profile_picture);
+  const response = await fetch(import.meta.env.VITE_API_ENDPOINT + '/users/profile_picture', { 
+    method: 'POST', 
+    body: formData,
+    credentials: 'include',
+  })
+  const data = await response.json();
+  return data;
+}
+
 const fetchUpdateName = async ({name}: {name:string}): Promise<{
   data: UserQueried;
   message: string;
@@ -40,6 +54,21 @@ const fetchUpdateMail = async ({email}: {email:string}): Promise<{
   })
   const data = await response.json();
   return data;
+}
+
+export const useMutateUserPicture = () => {
+  const { trigger_success, trigger_alert } = useContext(ToasterContext);
+  const {updateUser} = useContext(AuthContext);
+  return useMutation( {
+    onSuccess: () => {
+      trigger_success('Picture updated');
+      updateUser();
+    },
+    onError: () => {
+      trigger_alert('Error updating picture')
+    },
+    mutationFn: fetchUpdateProfilePicture,
+  })
 }
 
 export const useMutateUserName = () => {

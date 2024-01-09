@@ -46,7 +46,7 @@ export function SettingCard({
   instruction,
   type,
   action_label,
-  onSide,
+  custom_button,
   onSubmit = () => { }
 }:
   {
@@ -56,7 +56,7 @@ export function SettingCard({
     children: React.ReactNode,
     instruction: string,
     type?: "warning" | "normal",
-    onSide?: boolean,
+    custom_button?: JSX.Element,
     onSubmit: () => void
   }) {
   let bg_color = "bg-tint100 ";
@@ -68,34 +68,22 @@ export function SettingCard({
   return (
     <div className="py-5">
       <div className={"w-full border-1 rounded-tl-sm rounded-tr-sm px-4 py-5 " + bg_color + border_color}>
-        {
-          onSide ? (
-            <div className="flex flex-row items-center justify-between">
-              <div className="w-1/2">
-                <h2 className="text-2xl font-primary font-medium my-1">{title}</h2>
-                <p className="text-tint500 text-sm font-light">{description}</p>
-              </div>
-              <div className="w-1/2">
-                {children}
-              </div>
-            </div>
-          ) :
-            (
-              <>
-                <h2 className="text-2xl font-primary font-medium my-1">{title}</h2>
-                <p className="text-tint500 text-sm font-light">{description}</p>
-                <div className="mt-4">
-                  {children}
-                </div>
-              </>
-            )
-        }
+
+        <h2 className="text-2xl font-primary font-medium my-1">{title}</h2>
+        <p className="text-tint500 text-sm font-light">{description}</p>
+        <div className="mt-4">
+          {children}
+        </div>
+
 
       </div>
       <div className={"w-full rounded-bl-sm rounded-br-sm bg-0 py-5 px-4 flex flex-row items-center border-l-1 border-r-1 border-b-1 " + border_color}>
         <p className="font-light text-sm w-2/3">{instruction}</p>
         <div className="w-1/3">
-          <Button type={type === "warning" ? "warning" : "secondary"} onClick={onSubmit}><p>{action_label}</p></Button>
+          {
+            custom_button != undefined ? custom_button : (
+              <Button type={type === "warning" ? "warning" : "secondary"} onClick={onSubmit}><p>{action_label}</p></Button>)
+          }
         </div>
       </div>
     </div>
