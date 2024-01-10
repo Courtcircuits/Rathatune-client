@@ -2,7 +2,7 @@ backend:
   port: "80"
 
 image:
-  tag: "0.0.1-78"
+  tag: "0.0.1-82"
   repository: "milou666/ratathune"
 
 frontend:
