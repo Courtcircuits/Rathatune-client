@@ -12,7 +12,7 @@ jobs:
     name: Calculate Version
     runs-on: ubuntu-latest
     outputs:
-      semVer: ${{ steps.gitversion.outputs.semVer }}
+      tag: ${{ steps.gitversion.outputs.semVer }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -33,9 +33,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: determine_version
     env:
-      TAG: ${{ needs.determine_version.outputs.semVer }}
+      TAG: ${{ needs.determine_version.outputs.tag }}
     outputs:
-      tag: ${{ needs.determine_version.outputs.semVer }}
+      tag: ${{ needs.determine_version.outputs.tag }}
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
@@ -63,13 +63,11 @@ jobs:
   deploy:
     if: >
       contains(github.event.head_commit.message, 'release')
-    name: deploy projet
+    name: Deploy project
     runs-on: ubuntu-latest
     needs: push_to_registry
     env:
-      TAG: ${{ needs.determine_version.outputs.semVer }}
-    outputs:
-      tag: ${{ needs.determine_version.outputs.semVer }}
+      TAG: ${{ needs.push_to_registry.outputs.tag }}
     steps:
       - name: Checkout the repo
         uses: actions/checkout@v4
