@@ -23,14 +23,14 @@ export default function RoomLayout({ subtitle, children }: { children: React.Rea
     </div>)
   }
   return (<div className="px-[10%]">
-    <div className="py-10 flex flex-row w-full items-center">
+    <div className="py-10 flex flex-col w-full sm:flex-row sm:items-center">
       <div className="w-2/3">
         <h1 className="text-4xl font-primary font-black">
           {room.name}
         </h1>
         <p className="text-tint500 text-sm">{subtitle}</p>
       </div>
-      <div className="w-1/3 flex flex-row justify-end">
+      <div className="w-1/3 flex flex-row sm:justify-end sm:mt-0 mt-5">
         <DialogCreateTransaction>
           <div className="w-[200px] mr-2">
             <IconButton onClick={() => { }} text="Add expense" type="secondary" icon={
@@ -83,7 +83,7 @@ function UserList({ users }: { users: string[] }) {
         </button>
       </DialogInvitation>
 
-      <div className='mx-6 w-[1px] h-10 bg-tint400 '></div>
+      <div className='sm:mx-6 mx-3 w-[1px] h-10 bg-tint400 '></div>
       {
         users.map((user) => <div key={user} className="mx-3"><UserCard name={user} url={"https://vercel.com/api/www/avatar/?u=" + user + "&s=60"} /></div>)
       }

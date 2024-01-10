@@ -47,13 +47,12 @@ function Header() {
   return (
     <header ref={headerRef} className='pl-5 pr-5 fixed flex flex-row w-full items-center justify-between backdrop-blur-sm bg-tintOpac0 border-b-tint300'>
       <div className='flex flex-row items-center'>
-        <Link to="/dashboard">
+        <Link to="/dashboard" className=''>
           <Logo />
         </Link>
-        <div className='mx-6 w-[1px] h-10 bg-tint400 '></div>
+        <div className='mx-0 w-[0px] h-10 bg-tint400 sm:w-[1px] sm:mx-6'></div>
         <Dropdown triggerComponent={dropdownTriggerComponent} menu={dropdownMenu} />
-
-        <div className='mx-3 w-[1px] h-7 bg-tint00 '></div>
+        <div className='mx-0 w-[0px] h-7 bg-tint00 sm:mx-3 sm:w-[0px]'></div>
       </div>
       <div className='flex flex-row items-center justify-between'>
         <div className='mr-4'>
@@ -80,7 +79,7 @@ function Header() {
 
 function Logo() {
   return (
-    <img width={70} src={logo} alt="Logo" />
+    <img className="w-[0px] h-[70px] sm:w-[70px]" src={logo} alt="Logo" />
   )
 }
 
@@ -117,8 +116,8 @@ function RoomSelector({ rooms, selected }: { rooms: Room[], selected: string | u
 }
 
 function ProfilePicture({ url }: { url: string }) {
-  const {data} = useUserInvitations();
-  const {user} = useContext(AuthContext);
+  const { data } = useUserInvitations();
+  const { user } = useContext(AuthContext);
 
   url = user.profile_picture || url;
   if (data?.length === 0 || data === undefined) {

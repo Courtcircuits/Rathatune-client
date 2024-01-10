@@ -55,7 +55,7 @@ export default function HomeDashboard() {
   return (
     <>
       <Header />
-      <div className="pt-[90px] px-[10%] w-full">
+      <div className="pt-[90px] px-[5%] md:px-[10%] w-full">
         <section className="text-center py-10">
           <h2 className="font-bold text-xl">{
             sold === 0 ? `You have no debt` :
@@ -68,7 +68,7 @@ export default function HomeDashboard() {
             sold >= 0 ? `gg... you're not a rat` : `gg... you're a rat`
           }</h2>
         </section>
-        <section className="px-[10%] w-full flex-col flex items-center justify-center">
+        <section className="px-[0%] md:px-[10%] w-full flex-col flex items-center justify-center">
           {
             rooms.map((room, index) => {
               return (
@@ -76,13 +76,15 @@ export default function HomeDashboard() {
               )
             })
           }
+          <div className="w-full md:w-1/2 xl:1/3">
           <DialogCreateGroup>
             {/* <p className="mr-3 text-lg">Create a new group</p> */}
-            <div className="my-4">
+            <div className="my-4 w-full">
               {/* <AddIcon width={25} height={20} /> */}
-              <Button type="primary" style="px-5">+ Create a new group</Button>
+              <Button type="primary" style="md:px-5">+ Create a new group</Button>
             </div>
           </DialogCreateGroup>
+          </div>
         </section>
       </div>
     </>

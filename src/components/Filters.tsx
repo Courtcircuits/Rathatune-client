@@ -20,7 +20,7 @@ function Filters() {
         document.title = `${room?.name} - ${filters[index] == undefined ? 'Transactions' : filters[index] } - Ratathune`
     }, [selected, room, params])
     return (
-        <div className="border-b-1 border-tint400 px-5">
+        <div className="border-b-1 border-tint400 sm:px-5 px-3 flex flex-row justify-between sm:block">
             {
                 filters.map((filter, index) => {
                     return <Filter key={index} name={filter} selected={index == selected} onClick={() => {
@@ -34,15 +34,15 @@ function Filters() {
 
 function Filter({ name, selected, onClick, disabled }: { name: string, selected: boolean, onClick: () => void, disabled?: boolean }) {
     if (disabled) return (
-        <button disabled className="text-lg text-tint500 pb-2 w-fit mx-7 first:ml-0">{name}</button>
+        <button disabled className="text-lg text-tint500 pb-2 w-fit sm:mx-7 mx-2 first:ml-0">{name}</button>
     )
     if (!selected) return (
-        <Link className="mx-7 first:ml-0" to={name.toLowerCase()}>
+        <Link className="sm:mx-7 mx-2 first:ml-0" to={name.toLowerCase()}>
             <button onClick={onClick} className="text-lg text-tint500 pb-2 w-fit">{name}</button>
         </Link>
     )
     return (
-        <Link className="mx-7 first:ml-0" to={ name.toLowerCase()}>
+        <Link className="sm:mx-7 mx-2 first:ml-0" to={ name.toLowerCase()}>
             <button onClick={onClick} className="text-lg pb-2 border-tint800 border-b-2 w-fit">{name}</button>
         </Link>
     )

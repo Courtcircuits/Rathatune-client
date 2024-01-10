@@ -52,8 +52,8 @@ function Register() {
   }
 
   return (
-    <div className="flex items-center justify-center h-screen flex-col">
-      <div className="md:w-1/3 sm:w-1/2 flex items-center flex-col">
+    <div className="flex items-center justify-center min-h-screen flex-col h-full py-20">
+      <div className="md:w-1/3 w-[80%] flex items-center flex-col">
         <h1 className="heading-1 pb-5">Register</h1>
         <IconButton icon={
           <GoogleIcon width={25} height={25} />

@@ -32,8 +32,8 @@ function Home() {
 
   return (
     <>
-      <header className='flex flex-row justify-between items-center px-14 py-4'>
-        <div className='w-44'></div>
+      <header className='flex flex-row justify-between items-center px-3 sm:px-14 py-4'>
+        <div className='w-0 sm:w-44'></div>
         <div className='flex flex-col items-center justify-center'>
           <img width={80} src={logo} alt="Logo" />
           <p>Ratathune</p>
@@ -61,17 +61,17 @@ function Home() {
           </Link>
         </div>
       </section>
-      <h2 className='text-center px-48 text-4xl font-bold py-20'>Pas convaincu ??? 🐀🤬😾</h2>
-      <section className='flex flex-row items-center justify-center px-48 py-14'>
-        <aside className='w-1/6'>
-          <h3 className='font-bold text-4xl mr-16'>Tema la taille du rat !</h3>
+      <h2 className='text-center sm:px-48 text-4xl font-bold py-20 '>Pas convaincu ??? 🐀🤬😾</h2>
+      <section className='flex flex-col sm:flex-row items-center justify-center sm:px-20 px-5 py-14'>
+        <aside className='sm:w-1/6'>
+          <h3 className='font-bold text-4xl mr-16 text-center w-full sm:w-fit mb-4 sm:mb-0 sm:text-left sm:mr-5'>Tema la taille du rat !</h3>
         </aside>
         <main className='w-5/6'>
           <div>
             <Debt amplitude={1000} amount={500} name='Jean' index='1' />
             <Debt amplitude={1000} amount={-500} name='Rat' index='2' />
           </div>
-          <p className='font-fun'>
+          <p className='font-fun opacity-0 sm:opacity-100'>
             Ton pote le rat
           </p>
         </main>

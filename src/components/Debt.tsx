@@ -43,8 +43,8 @@ export default function Debt({
   }
 
   return (
-    <li className="flex flex-row items-center justify-between w-full py-4">
-      <div className="flex flex-row items-center w-2/12">
+    <li className="flex flex-col sm:flex-row items-center justify-between w-full py-4">
+      <div className="flex flex-row items-center justify-center sm:w-2/12 mb-3 sm:mb-0">
         <p className="text-xl font-bold mr-5">{index}.</p>
         <UserCard king={parseInt(index) - 1 === 0} name={name} url={"https://vercel.com/api/www/avatar/?u=" + name.toLowerCase() + "&s=60"} />
       </div>
