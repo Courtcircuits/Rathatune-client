@@ -9,21 +9,21 @@ jobs:
   determine_version:
     if: >
       contains(github.event.head_commit.message, 'release')
-    name: Calculate Version
+    name: calculate version
     runs-on: ubuntu-latest
     outputs:
-      tag: ${{ steps.gitversion.outputs.semVer }}
+      tag: ${{ steps.gitversion.outputs.semver }}
     steps:
-      - name: Checkout
+      - name: checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Install GitVersion
+      - name: install gitversion
         uses: gittools/actions/gitversion/setup@v0
         with:
-          versionSpec: '6.x'
-          includePrerelease: true
-      - name: Determine Version
+          versionspec: '6.x'
+          includeprerelease: true
+      - name: determine version
         id: gitversion
         uses: gittools/actions/gitversion/execute@v0
   push_to_registry:
