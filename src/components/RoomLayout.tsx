@@ -83,10 +83,12 @@ function UserList({ users }: { users: string[] }) {
         </button>
       </DialogInvitation>
 
-      <div className='sm:mx-6 mx-3 w-[1px] h-10 bg-tint400 '></div>
+      <div className='sm:mx-6 mx-3 w-[1px] h-10 bg-tint400'></div>
+      <div className="w-full flex-row flex overflow-scroll">
       {
         users.map((user) => <div key={user} className="mx-3"><UserCard name={user} url={"https://vercel.com/api/www/avatar/?u=" + user + "&s=60"} /></div>)
       }
+      </div>
     </div>
   )
 }

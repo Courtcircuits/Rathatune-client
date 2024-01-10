@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { HelpDebt } from "./Help";
 import { UserCard } from "./UserCard"
 import { AuthContext } from "../contexts/AuthContext";
@@ -15,12 +15,34 @@ export default function Debt({
   amplitude: number
 }) {
   const { user } = useContext(AuthContext);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 640);
+
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      if (window.innerWidth < 640) {
+        setIsMobile(true);
+      } else {
+        setIsMobile(false);
+      }
+    })
+
+    return () => {
+      window.removeEventListener("resize", () => {
+        if (window.innerWidth < 640) {
+          setIsMobile(true);
+        } else {
+          setIsMobile(false);
+        }
+      })
+    }
+  }, [])
+
   let color = amount > 0 ? "border-warn bg-lightwarn" : "border-green bg-lightgreen";
   if (amount === 0) {
     color = "border-tint400 bg-lighttint400";
   }
   let colorText = amount > 0 ? "text-warn" : "text-green";
-  let align = amount < 0 ? "justify-end" : "justify-start";
+  let align = amount < 0 && !isMobile ? "justify-end" : "justify-start";
   if (amount === 0) {
     colorText = "text-tint400";
   }
@@ -43,15 +65,17 @@ export default function Debt({
   }
 
   return (
-    <li className="flex flex-col sm:flex-row items-center justify-between w-full py-4">
-      <div className="flex flex-row items-center justify-center sm:w-2/12 mb-3 sm:mb-0">
+    <li className="flex flex-col sm:flex-row sm:items-center justify-between w-full py-4">
+      <div className="flex flex-row sm:w-2/12 mb-3 sm:mb-0">
         <p className="text-xl font-bold mr-5">{index}.</p>
-        <UserCard king={parseInt(index) - 1 === 0} name={name} url={"https://vercel.com/api/www/avatar/?u=" + name.toLowerCase() + "&s=60"} />
+        <UserCard king={parseInt(index) - 1 === 0} name={name} url={"https://vercel.com/api/www/avatar/?u=" + name.toLowerCase() + "&s=60"} onlyName={
+          isMobile
+        } />
       </div>
       <HelpDebt message={message}>
         <div className={"w-12/12 flex flex-row items-center " + align + " hover:cursor-help opacity-40 hover:opacity-100 transition-all ease-linear duration-150 rounded-sm py-1 px-1"}>
           {
-            amount < 0 ? null : <div className="w-1/2"></div>
+            amount < 0 && isMobile ? null : <div className={isMobile ? "w-0" : "w-1/2"}></div>
           }
           <div style={
             {
@@ -60,7 +84,7 @@ export default function Debt({
           } className={"h-[30px] border-1 " + color + " rounded-sm"}>
           </div>
           {
-            amount <= 0 ? <div className="w-1/2"></div> : <div className="flex-grow-1"></div>
+            amount <= 0 ? <div className={isMobile ? "w-0" : "w-1/2"} ></div> : <div className="flex-grow-1"></div>
 
           }
         </div>
@@ -69,3 +93,4 @@ export default function Debt({
     </li>
   )
 }
+
