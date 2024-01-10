@@ -75,7 +75,7 @@ export default function Debt({
       <HelpDebt message={message}>
         <div className={"w-12/12 flex flex-row items-center " + align + " hover:cursor-help opacity-40 hover:opacity-100 transition-all ease-linear duration-150 rounded-sm py-1 px-1"}>
           {
-            amount < 0 && isMobile ? null : <div className={isMobile ? "w-0" : "w-1/2"}></div>
+            amount < 0 ? null : <div className={isMobile ? "w-0" : "w-1/2"}></div>
           }
           <div style={
             {
@@ -85,7 +85,6 @@ export default function Debt({
           </div>
           {
             amount <= 0 ? <div className={isMobile ? "w-0" : "w-1/2"} ></div> : <div className="flex-grow-1"></div>
-
           }
         </div>
       </HelpDebt>
