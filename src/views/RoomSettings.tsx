@@ -13,24 +13,33 @@ export default function RoomSettings() {
   return (
     <div className="px-[10%] py-10">
       <h1 className="text-4xl font-primary font-black">
-        {room != undefined ? room.name : "You can't access this room."}
+        {room?.isAdmin ? "👑 " : ""}{room != undefined ? room.name : "You can't access this room."}
       </h1>
       {
         room != undefined ? (<><p className="text-tint500 text-sm">Manage your room here.</p>
           <div className="py-5">
+          {
+            room.isAdmin &&
             <SettingCard action_label="update" title="Update the name of the room" description="Update the name of the room. This time pick a smarter name..." instruction="The name can't be more than 50 characters long. Otherwise, you won't remember it." onSubmit={() => {
               mutateRoomName({ roomId: room.id, name: roomName });
             }}>
               <input className="w-full bg-tint0 border-1 border-tint400 rounded-sm px-4 py-2" type="text" placeholder="Your room name" value={roomName} onChange={(e) => { setRoomName(e.target.value) }} />
             </SettingCard>
+          }
+          {
+            !room.isAdmin &&
             <SettingCard action_label="Leave" type="warning" title="Leave the room" description="Leave the room, it will delete all the transactions involving you." instruction="Tips : leave the country aswell and asap" onSubmit={() => {
               mutateLeaveRoom({ roomId: room.id });
             }}>
             </SettingCard>
+          }
+            {
+              room.isAdmin &&
             <SettingCard action_label="Delete" type="warning" title="Delete this room" description="If you delete your room, you won't be able to make it come back." instruction="Farewell and goodbye." onSubmit={() => {
               mutateDeleteRoom({ roomId: room.id });
             }}>
             </SettingCard>
+            }
           </div></>) : (
           <p></p>
         )

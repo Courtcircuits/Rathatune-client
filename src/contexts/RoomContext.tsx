@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 export interface Room {
   name: string;
   id: string;
+  isAdmin: boolean;
   members: {
     name: string,
     id: string,
@@ -40,6 +41,7 @@ export async function getRoom(id: string): Promise<Room> {
 const rooms: Room[] = [{
   name: "Vacances  à Tahiti",
   id: "1",
+  isAdmin: false,
   members: [],
   transactions: []
 }];
