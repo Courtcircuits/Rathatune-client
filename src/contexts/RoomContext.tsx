@@ -1,16 +1,19 @@
 import { createContext, useEffect, useState } from "react";
 import { ITransaction } from "../components/Transaction";
 import { useNavigate, useParams } from "react-router-dom";
+import { ReimbursmentProps } from "../components/Reimbursment";
+
+export interface Member{
+  name: string,
+  id: string,
+  profile_picture: string,
+}
 
 export interface Room {
   name: string;
   id: string;
   isAdmin: boolean;
-  members: {
-    name: string,
-    id: string,
-    profile_picture: string,
-  }[];
+  members: Member[];
   transactions: ITransaction[];
 }
 
@@ -58,6 +61,21 @@ export function computeDebts(room: Room): { member: string, amount: number }[] {
     toReturn[receiverIndex].amount += transaction.amount;
   }
   return toReturn.sort((a, b) => b.amount - a.amount);
+}
+
+export function computeReimbursmentsSuggestions(room: Room, user_id: string) : ReimbursmentProps[] {
+  const debts = computeDebts(room);
+  let toReturn: ReimbursmentProps[] = [];
+  for (let debt of debts) {
+    if (debt.amount < 0) {
+      const receiver = room.members.find((member) => member.name === debt.member);
+      console.log(user_id, receiver?.id);
+      if (receiver === undefined) continue;
+      if (receiver.id == user_id) continue;
+      toReturn.push({ recipient: receiver, amount: Math.abs(debt.amount) });
+    }
+  }
+  return toReturn;
 }
 
 

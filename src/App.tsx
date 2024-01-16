@@ -12,6 +12,7 @@ import Share from "./views/Share"
 import HomeDashboard from "./views/HomeDashboard"
 import { ToastProvider } from "./contexts/ToastContext"
 import UserSettings from "./views/UserSettings"
+import Reimbursments from "./views/Reimbursments"
 
 const router = createBrowserRouter([
   {
@@ -57,6 +58,9 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/:id/settings",
         element: <RoomSettings />,
+      },{
+        path: "/dashboard/:id/reimbursments",
+        element: <Reimbursments />,
       }
     ]
   }

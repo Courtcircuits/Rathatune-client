@@ -4,7 +4,7 @@ import { RoomContext } from "../contexts/RoomContext";
 
 function Filters() {
     const [selected, setSelected] = useState(0);
-    const filters = ["Transactions", "Leaderboard", "Settings"]
+    const filters = ["Transactions", "Leaderboard", "Settings", "Reimbursments"]
     const location = useLocation();
     const {room} = useContext(RoomContext);
     const params = useParams();

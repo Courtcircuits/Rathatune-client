@@ -5,32 +5,16 @@ import { Field } from "../Field";
 import SelectButton, { SelectButtonSearch } from "../SelectButton";
 import { RoomContext } from "../../contexts/RoomContext";
 import { AuthContext } from "../../contexts/AuthContext";
-import { ToasterContext } from "../../contexts/ToastContext";
-
-export async function createTransaction(room_id: string, description: string, amount: number, type: string, other_member: string) {
-    const formData = new FormData();
-    formData.append("room_id", room_id);
-    formData.append("title", description);
-    formData.append("amount", amount.toString());
-    formData.append("type", type);
-    formData.append("target_user_id", other_member);
-    const data = await fetch(import.meta.env.VITE_API_ENDPOINT + "/transaction/create", {
-        method: "POST",
-        credentials: "include",
-        body: formData,
-    });
-    if (data.status === 400 || data.status === 401) {
-        throw new Error("Room not found");
-    }
-}
+import { useCreateTransaction } from "../../queries/transactions.mutations";
 
 export default function DialogCreateTransaction({
     children
 }: {
     children: React.ReactNode
 }) {
-    const { room, updateRoom } = useContext(RoomContext);
+    const { room } = useContext(RoomContext);
     const { user } = useContext(AuthContext);
+    const { mutate } = useCreateTransaction();
     const members = room?.members?.filter((member) => member.id !== user.id.toString()) || [];
     const [otherMember, setOtherMember] = useState<{
         id: string,
@@ -42,7 +26,6 @@ export default function DialogCreateTransaction({
     const [type, setType] = useState<string>("Expense");
     const [error, setError] = useState("");
     const [open, setOpen] = useState(false);
-    const { trigger_success } = useContext(ToasterContext);
 
 
     function checkIfValid(): string | boolean {
@@ -72,12 +55,16 @@ export default function DialogCreateTransaction({
     const next = <Button type="secondary" onClick={() => {
         const valid = checkIfValid();
         if (valid === true) {
-            createTransaction(room?.id as string, description, parseInt(amount), type, otherMember.id).then(() => {
-                setError("");
-                setOpen(false);
-                updateRoom(room?.id as string);
-                trigger_success("Transaction created !");
+          console.log(type);
+            mutate({
+              other_user_id: otherMember.id,
+              amount: parseInt(amount),
+              description: description,
+              type: type === "Expense" ? "Expense" : "debt",
+              room_id: room?.id as string,
+              date: new Date().toISOString()
             })
+            setOpen(false);
         } else {
             setError(valid as string);
         }

@@ -26,6 +26,10 @@ jobs:
       - name: determine version
         id: gitversion
         uses: gittools/actions/gitversion/execute@v0
+        with:
+          configFilePath: 'GitVersion.yml'
+          useConfigFile: true
+            
   push_to_registry:
     if: >
       contains(github.event.head_commit.message, 'release')
