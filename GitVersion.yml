@@ -18,6 +18,6 @@ merge-message-formats: {}
 update-build-number: true
 mode: Mainline
 branches:
-  master:
+  main:
     mode: ContinuousDeployment
     tag: ''

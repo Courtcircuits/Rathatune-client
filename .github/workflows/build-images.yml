@@ -22,7 +22,7 @@ jobs:
         uses: gittools/actions/gitversion/setup@v0
         with:
           versionspec: '6.x'
-          includeprerelease: true
+          includePrerelease: true
       - name: determine version
         id: gitversion
         uses: gittools/actions/gitversion/execute@v0
