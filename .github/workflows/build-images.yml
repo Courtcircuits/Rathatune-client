@@ -21,7 +21,7 @@ jobs:
       - name: install gitversion
         uses: gittools/actions/gitversion/setup@v0
         with:
-          versionspec: '6.x'
+          versionspec: '5.x'
           includePrerelease: true
       - name: determine version
         id: gitversion
