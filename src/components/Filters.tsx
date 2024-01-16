@@ -4,7 +4,7 @@ import { RoomContext } from "../contexts/RoomContext";
 
 function Filters() {
     const [selected, setSelected] = useState(0);
-    const filters = ["Transactions", "Leaderboard", "Settings", "Reimbursments"]
+    const filters = ["Transactions", "Leaderboard",  "Reimbursments", "Settings"]
     const location = useLocation();
     const {room} = useContext(RoomContext);
     const params = useParams();
@@ -20,7 +20,7 @@ function Filters() {
         document.title = `${room?.name} - ${filters[index] == undefined ? 'Transactions' : filters[index] } - Ratathune`
     }, [selected, room, params])
     return (
-        <div className="border-b-1 border-tint400 sm:px-5 px-3 flex flex-row justify-between sm:block">
+        <div className="border-b-1 border-tint400 sm:px-5 px-3 flex flex-row justify-between sm:block w-screen overflow-x-scroll sm:overflow-x-hidden">
             {
                 filters.map((filter, index) => {
                     return <Filter key={index} name={filter} selected={index == selected} onClick={() => {
