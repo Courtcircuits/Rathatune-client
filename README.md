@@ -1,10 +1,11 @@
-
 <center>
 <img src="https://ratathune.fr/assets/logo-Qisau-ub.png" height="150px"/>
 <h1><a href="https://ratathune.fr">Ratathune</a></h1>
 </center>
-**Ratathune** is a [tricount](https://www.tricount.com/fr/faire-les-comptes-entre-amis) clone made in [React](https://fr.react.dev) and [Adonis.js](https://adonisjs.com). Ratathune helps you manage your expenses with your colleagues, friends, relatives...
-⚠️ This project is a **parody**, don't take it to seriously.
+
+**Ratathune** is a [tricount](https://www.tricount.com/fr/faire-les-comptes-entre-amis) clone made in [React](https://fr.react.dev) and [Adonis.js](https://adonisjs.com). Ratathune helps you manage your expenses with your colleagues, friends & relatives...
+
+⚠️ This project is a **parody**, don't take it too seriously.
 ## How to access to the project ?
 - [ratathune.fr](https://ratathune.fr)
 ## How to work on it ?
