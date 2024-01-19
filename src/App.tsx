@@ -13,35 +13,44 @@ import HomeDashboard from "./views/HomeDashboard"
 import { ToastProvider } from "./contexts/ToastContext"
 import UserSettings from "./views/UserSettings"
 import Reimbursments from "./views/Reimbursments"
+import ErrorBoundary from "./components/ErrorBoundary"
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
+    errorElement: <ErrorBoundary />,
   },
   {
     path: "/login",
     element: <AuthProvider><Login /></AuthProvider>,
+    errorElement: <ErrorBoundary />,
   },
   {
     path: "/register",
     element: <AuthProvider><Register /></AuthProvider>,
+    errorElement: <ErrorBoundary />,
   },
   {
     path: "/join/:id",
     element: <AuthProvider><Share /></AuthProvider>,
+    errorElement: <ErrorBoundary />,
   },
   {
     path: "/dashboard",
+
+    errorElement: <ErrorBoundary />,
     element: <AuthProvider><HomeDashboard /></AuthProvider>,
   },
   {
     path: "/settings",
     element: <AuthProvider><UserSettings /></AuthProvider>,
+    errorElement: <ErrorBoundary />,
   },
   {
     path: "/dashboard/:id",
     element: <AuthProvider><Dashboard /></AuthProvider>,
+    errorElement: <ErrorBoundary />,
     children: [
       {
         path: "/dashboard/:id/",

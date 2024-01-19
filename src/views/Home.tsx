@@ -39,7 +39,7 @@ function Home() {
           <p>Ratathune</p>
         </div>
         <Link to='/login' className='w-44'>
-          <Button type='secondary'>Se connecter</Button>
+          <Button type='primary'>Se connecter</Button>
         </Link>
       </header>
 
@@ -85,16 +85,16 @@ function Home() {
         <section className='px-48 py-24 flex-col'>
           <p className='font-bold'>Made with ♡ by <a href='https://www.threads.net/@courtcircuits' className='text-warn font-bold hover:underline'>@courtcircuits</a></p>
           <p>
-            <Link to='/login' className='text-tint500 hover:underline'>Terms of services</Link>
+            <Link to='/404' className='text-tint500 hover:underline'>Terms of services</Link>
           </p>
-          <Link to='/login' className='text-tint500 hover:underline'>Privacy policy</Link>
+          <Link to='/404' className='text-tint500 hover:underline'>Privacy policy</Link>
         </section>
         <section className='px-48 py-24 flex-col text-right'>
           <p className='font-bold'>Alternatives</p>
-          <a href="" className='text-tint500 hover:underline'>tricount.com</a><br />
-          <a href="" className='text-tint500 hover:underline'>split.fr</a><br />
+          <a href="https://tricount.hponthieu.com" className='text-tint500 hover:underline'>tricount.com</a><br />
+          <a href="https://split.backtothe.cloud" className='text-tint500 hover:underline'>split.fr</a><br />
           <a href="" className='text-tint500 hover:underline'>wesplit.fr</a><br />
-          <a href="" className='text-tint500 hover:underline'>polybank.fr</a><br />
+          <a href="https://polybank.bonnal.cloud" className='text-tint500 hover:underline'>polybank.fr</a><br />
         </section>
       </footer>
     </>
