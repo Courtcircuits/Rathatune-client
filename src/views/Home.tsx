@@ -84,6 +84,7 @@ function Home() {
       <footer className='flex flex-row w-full justify-between'>
         <section className='px-48 py-24 flex-col'>
           <p className='font-bold'>Made with ♡ by <a href='https://www.threads.net/@courtcircuits' className='text-warn font-bold hover:underline'>@courtcircuits</a></p>
+          <p className='font-bold'><a className='hover:underline' href="https://courtcircuits.notion.site/Ratathune-78de08a32fb242338f7d3f42a681f9b0?pvs=4">About the project</a></p>
           <p>
             <Link to='/404' className='text-tint500 hover:underline'>Terms of services</Link>
           </p>
