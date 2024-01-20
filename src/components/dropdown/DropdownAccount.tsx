@@ -6,8 +6,10 @@ import SettingsIcon from "../../assets/icon/settings";
 import { IconButton } from "../Button";
 import { DropdownMenu, SectionSeparator } from "./Dropdown";
 import { AuthContext, logoutRequest } from "../../contexts/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useUserInvitations } from "../../queries/user.queries";
+import { useAcceptInvitation, useDenyInvitation } from "../../queries/user.mutations";
+import { ToasterContext } from "../../contexts/ToastContext";
 
 interface Invitation {
   room: string;
@@ -61,35 +63,45 @@ function SectionSelector({ section_name, icon, danger, onClick }: { section_name
 
 
 function Invitation({ from, room, uid, refetch }: { from: string, room: string, uid: string, refetch: () => void }) {
+  const { mutate: acceptInvitation, isSuccess: acceptIsSuccess, isError: acceptIsError, data  } = useAcceptInvitation(uid);
+  const { mutate: denyInvitation, isSuccess: denyIsSuccess, isError: denyIsError } = useDenyInvitation(uid);
+  const navigate = useNavigate();
+  const { trigger_success, trigger_alert } = useContext(ToasterContext);
+  const { updateUser } = useContext(AuthContext);
+
+  if (acceptIsSuccess) {
+    updateUser();
+    navigate(`/dashboard/${data.room_id}`);
+    trigger_success("Joined room");
+  }
+  if (acceptIsError) {
+    trigger_alert("Failed to join room");
+  }
+
+  if (denyIsSuccess) {
+    trigger_success("Denied invitation");
+    refetch();
+  }
+
+  if(denyIsError) {
+    trigger_alert("Failed to deny invitation");
+  }
+
+  
+
   return (
     <div className="flex flex-row py-5 border-b-1 border-b-tint300 last:border-b-0">
       <p className="w-3/4"><b>{from}</b> invited you to <b>{room}</b></p>
       <div className="w-1/4 flex flex-row justify-between">
         <div className="w-[50px] h-[20px]">
           <IconButton onClick={() => {
-            fetch(import.meta.env.VITE_API_ENDPOINT + "/invite/join/" + uid, {
-              method: "GET",
-              credentials: "include",
-            }).then((data) => {
-              if (data.status === 400 || data.status === 401) {
-                throw new Error("Room not found");
-              }
-              return data.json();
-            })
+            acceptInvitation();
           }} text="" type="accept" icon={<Check height={20} width={20} />} />
         </div>
         <div className="w-[50px] h-[20px]">
           <IconButton onClick={() => {
-            fetch(import.meta.env.VITE_API_ENDPOINT + "/invite/deny/" + uid, {
-              method: "GET",
-              credentials: "include",
-            }).then((data) => {
-              if (data.status === 400 || data.status === 401) {
-                throw new Error("Room not found");
-              }
-              refetch();
-            })
-          }} text="" type="warning" icon={<CrossIcon height={20} width={20} />} />
+            denyInvitation();
+          }}text="" type="warning" icon={<CrossIcon height={20} width={20} />} />
         </div>
       </div>
     </div>

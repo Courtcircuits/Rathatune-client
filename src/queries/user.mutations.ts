@@ -12,6 +12,16 @@ interface UserQueried {
   rooms: Room[];
 }
 
+interface Invitation {
+    id: number;
+    room_id: number;
+    sender_id: number;
+    receiver_id: number,
+    invite_code: string;
+    created_at: string;
+    updated_at: string;
+}
+
 const fetchUpdateProfilePicture = async ({profile_picture}: {profile_picture:File}): Promise<{
   message: string;
 }> => {
@@ -58,6 +68,37 @@ const fetchUpdateMail = async ({email}: {email:string}): Promise<{
   })
   const data = await response.json();
   return data;
+}
+
+const fetchAcceptInvitation = async ({invite_code}: {invite_code: string}): Promise<Invitation> => {
+  const response = await fetch(import.meta.env.VITE_API_ENDPOINT + '/invite/join/' + invite_code, {
+    method: 'GET',
+    credentials: 'include',
+  })
+  const data = await response.json();
+  return data;
+}
+
+const fetchDenyInvitation = async ({invite_code}: {invite_code: string}): Promise<Invitation> => {
+  const response = await fetch(import.meta.env.VITE_API_ENDPOINT + '/invite/deny/' + invite_code, {
+    method: 'GET',
+    credentials: 'include',
+  })
+  const data = await response.json();
+  return data;
+}
+
+export const useAcceptInvitation = (invite_code: string) => {
+  return useMutation( {
+    mutationFn: ()=>fetchAcceptInvitation({invite_code}),
+  })
+}
+
+
+export const useDenyInvitation = (invite_code: string) => {
+  return useMutation( {
+    mutationFn: ()=>fetchDenyInvitation({invite_code}),
+  })
 }
 
 export const useMutateUserPicture = () => {
